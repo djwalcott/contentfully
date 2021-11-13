@@ -43,14 +43,3 @@ const Description = styled(Name)`
   font-size: 12px;
   color: ${({ theme }) => theme.colors.gray[600]};
 `;
-
-const Field = styled.View`
-  border-bottom-width: 1px;
-  border-bottom-color: ${({ theme }) => theme.colors.gray[200]};
-  padding: 8px 0px;
-`;
-
-const FieldTitle = styled.Text`
-  font-size: 13px;
-  color: ${({ theme }) => theme.colors.gray[800]};
-`;

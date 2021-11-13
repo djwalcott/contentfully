@@ -1,15 +1,15 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import {useUser} from '../../hooks/user';
-import {CardTitle} from '../typography';
+import { useUser } from '../../hooks/user';
+import { CardTitle } from '../typography';
 
 export const Me = () => {
-  const {data} = useUser();
+  const { data } = useUser();
   return (
     <Container>
       <CardTitle>You</CardTitle>
       <Row>
-        <Avatar resizeMode="cover" source={{uri: data?.avatarUrl}} />
+        <Avatar resizeMode="cover" source={{ uri: data?.avatarUrl }} />
         <Column>
           <Name>{`${data?.firstName} ${data?.lastName}`}</Name>
           <Email>{data?.email}</Email>
@@ -24,7 +24,7 @@ const Container = styled.View`
   padding: 16px;
   margin: 8px;
   border-radius: 4px;
-  border-color: ${({theme}) => theme.colors.gray[200]};
+  border-color: ${({ theme }) => theme.colors.gray[200]};
   border-width: 1px;
 `;
 
@@ -37,11 +37,11 @@ const Avatar = styled.Image`
 const Name = styled.Text`
   font-size: 13px;
   margin-left: 8px;
-  color: ${({theme}) => theme.colors.gray[800]};
+  color: ${({ theme }) => theme.colors.gray[800]};
 `;
 
 const Email = styled(Name)`
-  color: ${({theme}) => theme.colors.gray[600]};
+  color: ${({ theme }) => theme.colors.gray[600]};
 `;
 
 const Row = styled.View`
