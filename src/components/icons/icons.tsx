@@ -10,9 +10,9 @@ import Svg, {
 } from 'react-native-svg';
 
 type Props = {
-  focused: boolean;
+  focused?: boolean;
   color: string;
-  size: number;
+  size?: number;
 };
 
 export const Block: FC<Props> = ({ color }) => {
@@ -31,6 +31,24 @@ export const Block: FC<Props> = ({ color }) => {
         <Line x1="16.5" y1="4.929" x2="22.5" y2="7.5" />
         <Ellipse cx="12" cy="3" rx="4.5" ry="1.5" />
         <Path d="M7.5,3V6c0,.828,2.015,1.5,4.5,1.5s4.5-.672,4.5-1.5V3" />
+      </G>
+    </Svg>
+  );
+};
+
+export const NavigationMenu: FC<Props> = ({ color }) => {
+  return (
+    <Svg
+      fill="none"
+      strokeWidth="1.5px"
+      stroke={color}
+      height={20}
+      width={20}
+      viewBox="0 0 140 140">
+      <G transform="matrix(5.833333333333333,0,0,5.833333333333333,0,0)">
+        <Path d="M23.5,6.5a1,1,0,0,1-1,1H7.5a1,1,0,0,1-1-1v-1a1,1,0,0,1,1-1h15a1,1,0,0,1,1,1Z" />
+        <Path d="M20.5,12.5a1,1,0,0,1-1,1H4.5a1,1,0,0,1-1-1v-1a1,1,0,0,1,1-1h15a1,1,0,0,1,1,1Z" />
+        <Path d="M17.5,18.5a1,1,0,0,1-1,1H1.5a1,1,0,0,1-1-1v-1a1,1,0,0,1,1-1h15a1,1,0,0,1,1,1Z" />
       </G>
     </Svg>
   );

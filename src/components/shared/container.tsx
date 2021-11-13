@@ -5,6 +5,6 @@ export const Container = styled.View`
   background-color: white;
   margin: 8px;
   border-radius: 6px;
-  border-color: ${({theme}) => theme.colors.gray[200]};
+  border-color: ${({ theme }) => theme.colors.gray[200]};
   border-width: 1px;
 `;

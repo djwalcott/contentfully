@@ -126,20 +126,24 @@ export const useModel = (modelID?: string) => {
   return useQuery<Model, Error>(
     ['models', space, environment, modelID],
     async () => {
-      try {
-        const response = await fetch(
-          `${BASE_URL}/spaces/${space}/environments/${environment}/content_types/${modelID}`,
-          {
-            headers: {
-              Authorization: `Bearer ${selected?.content}`,
-            },
+      const response = await fetch(
+        `${BASE_URL}/spaces/${space}/envsironments/${environment}/content_types/${modelID}`,
+        {
+          headers: {
+            Authorization: `Bearer ${selected?.content}`,
           },
-        );
+        },
+      );
 
-        return response.json();
-      } catch (error) {
-        return error;
+      const json = await response.json();
+
+      console.log(json);
+
+      if (json.sys.type === 'Error') {
+        throw new Error(json.message);
       }
+
+      return json;
     },
     { enabled: !!space && !!modelID && !!selected },
   );

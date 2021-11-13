@@ -6,7 +6,11 @@ import React from 'react';
 import { StatusBar, useColorScheme } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { DefaultTheme, ThemeProvider } from 'styled-components/native';
+import {
+  DefaultTheme,
+  ThemeProvider,
+  useTheme,
+} from 'styled-components/native';
 import { DrawerContent } from './src/components/drawer/drawer';
 import { Content as ContentEntries } from './src/views/content';
 import { Models } from './src/views/models';
@@ -22,6 +26,7 @@ import {
   Content,
   Home,
   Media as MediaICon,
+  NavigationMenu,
 } from './src/components/icons/icons';
 import { persistor, store } from './src/storage/store';
 
@@ -73,6 +78,30 @@ const ModelNavigator = () => {
 
 const theme: DefaultTheme = {
   colors: {
+    indigo: {
+      50: '#EEF2FF',
+      100: '#E0E7FF',
+      200: '#C7D2FE',
+      300: '#A5B4FC',
+      400: '#818CF8',
+      500: '#6366F1',
+      600: '#4F46E5',
+      700: '#4338CA',
+      800: '#3730A3',
+      900: '#312E81',
+    },
+    red: {
+      50: '#FEF2F2',
+      100: '#FEE2E2',
+      200: '#FECACA',
+      300: '#FCA5A5',
+      400: '#F87171',
+      500: '#EF4444',
+      600: '#DC2626',
+      700: '#B91C1C',
+      800: '#991B1B',
+      900: '#991B1B',
+    },
     gray: {
       50: '#F9FAFB',
       100: '#F3F4F6',
@@ -98,6 +127,9 @@ type SpaceTabParamList = {
 const Tab = createBottomTabNavigator<SpaceTabParamList>();
 
 const SpaceNavigator = () => {
+  const {
+    colors: { gray, indigo },
+  } = useTheme();
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -115,8 +147,8 @@ const SpaceNavigator = () => {
               return <Home color={color} size={size} focused={focused} />;
           }
         },
-        tabBarActiveTintColor: 'tomato',
-        tabBarInactiveTintColor: 'gray',
+        tabBarActiveTintColor: indigo[500],
+        tabBarInactiveTintColor: gray[500],
         headerShown: false,
       })}>
       <Tab.Screen name="Home" component={Space} />
@@ -141,8 +173,17 @@ const App = () => {
                   barStyle={isDarkMode ? 'light-content' : 'dark-content'}
                 />
                 <Drawer.Navigator
+                  screenOptions={{
+                    drawerIcon: ({ color }) => {
+                      return <NavigationMenu color={color} />;
+                    },
+                  }}
                   drawerContent={props => <DrawerContent {...props} />}>
-                  <Drawer.Screen name="Space" component={SpaceNavigator} />
+                  <Drawer.Screen
+                    name="Space"
+                    options={{ title: 'Contentfully' }}
+                    component={SpaceNavigator}
+                  />
                   <Drawer.Screen name="Settings" component={Settings} />
                 </Drawer.Navigator>
               </SafeAreaProvider>

@@ -21,3 +21,7 @@ Total hours at 7.11. = 31
   - Continue refactoring static environments and tokens
   - New reducers
   - Debugging entries display_field bug
+- 8.11.2021 (2h)
+  - Settings page styling
+  - Model page styling and data displaying
+  - Start work on loading states and error states
