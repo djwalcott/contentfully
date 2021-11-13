@@ -1,6 +1,6 @@
 ### Hour logging for this project
 
-Total hours at 7.11. = 31
+Total hours at 7.11. = 38
 
 - 23.10.2021 (8h)
   - Creating new React Native project
@@ -25,3 +25,7 @@ Total hours at 7.11. = 31
   - Settings page styling
   - Model page styling and data displaying
   - Start work on loading states and error states
+- 13.11.2021 (5)
+  - Design and add icons for ios
+  - Add Github action for linting and testing
+  - Test iOS by building a production version

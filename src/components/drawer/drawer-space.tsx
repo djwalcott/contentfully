@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, { FC } from 'react';
 import styled from 'styled-components/native';
 
 type Props = {
@@ -6,7 +6,7 @@ type Props = {
   id: string;
 };
 
-export const DrawerSpace: FC<Props> = ({name, id}) => {
+export const DrawerSpace: FC<Props> = ({ name, id }) => {
   return (
     <Container>
       <Space>{name}</Space>

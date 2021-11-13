@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 import { Button } from 'react-native';
-import Animated from 'react-native-reanimated';
 import styled from 'styled-components/native';
 import { Container } from '../components/shared/container';
 import { Toggle } from '../components/toggle/toggle';

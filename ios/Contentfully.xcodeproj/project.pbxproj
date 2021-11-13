@@ -496,7 +496,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = dev.perttu.contentfully;
+				PRODUCT_BUNDLE_IDENTIFIER = app.nyxo.contentfully;
 				PRODUCT_NAME = Contentfully;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -522,7 +522,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = dev.perttu.contentfully;
+				PRODUCT_BUNDLE_IDENTIFIER = app.nyxo.contentfully;
 				PRODUCT_NAME = Contentfully;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";

@@ -9,7 +9,7 @@ import { useEntries } from '../hooks/entry';
 
 type Props = NativeStackScreenProps<ContentStackParamList, 'Entries'>;
 
-export const Content: FC<Props> = ({ navigation }) => {
+export const Content: FC<Props> = () => {
   const { data } = useEntries();
 
   console.log(data);
@@ -20,9 +20,9 @@ export const Content: FC<Props> = ({ navigation }) => {
         {data?.items?.map(item => {
           return (
             <Entry
-              onPress={() =>
-                navigation.navigate('Entry', { entryID: item.sys.id })
-              }
+              // onPress={() =>
+              //   navigation.navigate('Entry', { entryID: item.sys.id })
+              // }
               entry={item}
               key={item.sys.id}
             />
@@ -34,5 +34,3 @@ export const Content: FC<Props> = ({ navigation }) => {
 };
 
 const ScrollView = styled.ScrollView``;
-
-const Text = styled.Text``;
