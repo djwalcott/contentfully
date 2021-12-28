@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import styled from 'styled-components/native';
 import { useLocales } from '../../hooks/locales';
-import { CardTitle } from '../typography';
+import { CardTitle } from '../shared/typography';
 
 type Props = {};
 

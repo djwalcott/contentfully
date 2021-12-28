@@ -55,6 +55,36 @@ export const useUser = () => {
   );
 };
 
+export const useContentfulUser = (id?: string) => {
+  const {
+    tokens: { selected },
+    space: { space },
+  } = useAppSelector(state => state);
+
+  return useQuery<User, Error>(
+    ['user', selected],
+    async () => {
+      try {
+        const response = await fetch(
+          `${BASE_URL}/spaces/${space}/users/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${selected?.content}`,
+            },
+          },
+        );
+
+        return response.json();
+      } catch (error) {
+        return error;
+      }
+    },
+    {
+      enabled: !!selected && !!id && !!space,
+    },
+  );
+};
+
 export const useUsers = () => {
   const {
     tokens: { selected },

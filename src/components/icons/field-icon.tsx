@@ -2,13 +2,17 @@ import React, { FC } from 'react';
 import { TextStyle } from 'react-native';
 import Svg, { G, Line, Path, Rect } from 'react-native-svg';
 import styled from 'styled-components/native';
+import { FieldType } from '../../hooks/models';
 
 type Props = {
-  fieldType: string;
+  fieldType: FieldType;
   style?: TextStyle;
 };
 
 export const FieldIcon: FC<Props> = ({ fieldType }) => {
+  /*
+  All types https://www.contentful.com/developers/docs/references/content-management-api/#entry-field-location
+  */
   switch (fieldType) {
     case 'Symbol':
       return <Symbol color="black" />;
@@ -18,6 +22,8 @@ export const FieldIcon: FC<Props> = ({ fieldType }) => {
       return <Array color="black" />;
     case 'RichText':
       return <Array color="black" />;
+    case 'Number':
+      return <Array color="black" />;
     case 'Integer':
       return <Array color="black" />;
     default:
@@ -25,7 +31,7 @@ export const FieldIcon: FC<Props> = ({ fieldType }) => {
   }
 };
 
-export const FieldType: FC<Props> = ({ fieldType, style }) => {
+export const FieldTypeText: FC<Props> = ({ fieldType, style }) => {
   switch (fieldType) {
     case 'Symbol':
       return <FieldText style={style}>Short text</FieldText>;

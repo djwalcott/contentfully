@@ -1,32 +1,36 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React, { FC } from 'react';
 import styled from 'styled-components/native';
-import { ContentStackParamList } from '../../App';
 import { Entry } from '../components/entry/entry';
 import { Container } from '../components/shared/container';
-import { CardTitle } from '../components/typography';
+import { RefreshControl } from '../components/shared/refresh-control';
+import { CardTitle } from '../components/shared/typography';
 import { useEntries } from '../hooks/entry';
+import { useDefaultLocale } from '../hooks/locales';
+import { ContentStackParamList } from '../navigation/navigation';
 
-type Props = NativeStackScreenProps<ContentStackParamList, 'Entries'>;
+export type ContentViewNavigationProp = NativeStackScreenProps<
+  ContentStackParamList,
+  'Entries'
+>;
+
+type Props = {
+  navigation: ContentViewNavigationProp;
+};
 
 export const Content: FC<Props> = () => {
-  const { data } = useEntries();
+  const { data, isRefetching, refetch } = useEntries();
+  const { data: locale } = useDefaultLocale();
 
-  console.log(data);
   return (
-    <ScrollView>
+    <ScrollView
+      refreshControl={
+        <RefreshControl refreshing={isRefetching} onRefresh={refetch} />
+      }>
       <Container>
         <CardTitle>Entries</CardTitle>
         {data?.items?.map(item => {
-          return (
-            <Entry
-              // onPress={() =>
-              //   navigation.navigate('Entry', { entryID: item.sys.id })
-              // }
-              entry={item}
-              key={item.sys.id}
-            />
-          );
+          return <Entry locale={locale?.code} entry={item} key={item.sys.id} />;
         })}
       </Container>
     </ScrollView>

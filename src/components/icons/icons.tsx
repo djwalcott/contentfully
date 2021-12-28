@@ -1,11 +1,11 @@
 import React, { FC } from 'react';
 import Svg, {
-  G,
-  Polygon,
-  Line,
-  Ellipse,
-  Path,
   Circle,
+  Ellipse,
+  G,
+  Line,
+  Path,
+  Polygon,
   Rect,
 } from 'react-native-svg';
 

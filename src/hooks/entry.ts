@@ -1,16 +1,20 @@
 import { useQuery } from 'react-query';
 import { useAppSelector } from '../storage/store';
 import { Link } from '../typings/contentful';
+import { LocaleCode } from '../typings/locale';
 
 const BASE_URL = 'https://api.contentful.com';
+
+type Field = string;
+type FieldName = string;
 
 export type Entry = {
   metadata: {
     tags: [];
   };
   fields: {
-    [key: string]: {
-      [locale: string]: unknown;
+    [key in FieldName]: {
+      [key in LocaleCode]: Field;
     };
   };
   sys: {
@@ -24,7 +28,7 @@ export type Entry = {
     environment: {
       sys: Entry;
     };
-    publishedVersion: 63;
+    publishedVersion: number;
     publishedAt: string;
     firstPublishedAt: string;
     createdBy: {
@@ -79,5 +83,33 @@ export const useEntries = () => {
       }
     },
     { enabled: !!space && !!environment && !!selected },
+  );
+};
+
+export const useEntry = (entryID?: string) => {
+  const {
+    tokens: { selected },
+    space: { space, environment },
+  } = useAppSelector(state => state);
+
+  return useQuery<Entry, Error>(
+    ['entry', space, environment, selected],
+    async () => {
+      try {
+        const response = await fetch(
+          `${BASE_URL}/spaces/${space}/environments/${environment}/entries/${entryID}`,
+          {
+            headers: {
+              Authorization: `Bearer ${selected?.content}`,
+            },
+          },
+        );
+
+        return response.json();
+      } catch (error) {
+        return error;
+      }
+    },
+    { enabled: !!space && !!environment && !!selected && !!entryID },
   );
 };

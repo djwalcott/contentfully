@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components/native';
 import { useUser } from '../../hooks/user';
-import { CardTitle } from '../typography';
+import { CardTitle } from '../shared/typography';
 
 export const Me = () => {
   const { data } = useUser();

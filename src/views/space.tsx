@@ -1,10 +1,10 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React, { FC } from 'react';
 import styled from 'styled-components/native';
-import { DrawerNavigatorProps } from '../../App';
 import { Locales } from '../components/locale/locales';
 import { AllUsers } from '../components/user/all-users';
 import { Me } from '../components/user/me';
+import { DrawerNavigatorProps } from '../navigation/navigation';
 
 type Props = NativeStackScreenProps<DrawerNavigatorProps, 'Space'>;
 

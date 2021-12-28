@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { Text } from 'react-native';
 import styled from 'styled-components/native';
 import { useEntries } from '../../hooks/entry';
-import { CardTitle } from '../typography';
+import { CardTitle } from '../shared/typography';
 
 type Props = {
   spaceID?: string;
@@ -10,7 +10,7 @@ type Props = {
 
 export const Entries: FC<Props> = () => {
   const { data } = useEntries();
-  console.log('entries', data);
+
   return (
     <Container>
       <CardTitle>Entries</CardTitle>

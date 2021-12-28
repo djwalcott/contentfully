@@ -1,9 +1,9 @@
 import formatRelative from 'date-fns/formatRelative';
 import React, { FC } from 'react';
 import styled from 'styled-components/native';
-import { ModelStackParamList } from '../../App';
 import { useModels } from '../hooks/models';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { ModelStackParamList } from '../navigation/navigation';
 
 type Props = NativeStackScreenProps<ModelStackParamList, 'Model'>;
 

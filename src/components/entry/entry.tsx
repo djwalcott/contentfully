@@ -1,30 +1,57 @@
+import { useNavigation } from '@react-navigation/native';
 import React, { FC } from 'react';
 import styled from 'styled-components/native';
-import { useModel } from '../../hooks/models';
 import { Entry as EntryType } from '../../hooks/entry';
-import { useDefaultLocale } from '../../hooks/locales';
+import { useModel } from '../../hooks/models';
+import { font } from '../../styles';
+import { LocaleCode } from '../../typings/locale';
+import { formatTimestamp } from '../../utilities/time';
+import { ContentViewNavigationProp } from '../../views/content';
+import { Chevron } from '../icons/chevron';
 
 type Props = {
+  locale: LocaleCode | undefined;
   entry: EntryType;
 };
 
-export const Entry: FC<Props> = ({ entry }) => {
-  const { data: locale } = useDefaultLocale();
+export const Entry: FC<Props> = ({ entry, locale }) => {
   const { data: model } = useModel(entry.sys.contentType.sys.id);
+  const navigation = useNavigation<ContentViewNavigationProp['navigation']>();
 
   return (
-    <Container>
-      {model?.displayField && locale?.code && entry?.fields && (
-        <Title>{entry?.fields[model?.displayField][locale?.code]}</Title>
-      )}
+    <Container
+      onPress={() => navigation.navigate('Entry', { entryID: entry.sys.id })}>
+      <Column>
+        {model?.displayField && locale && (
+          <Title>{entry?.fields?.[model?.displayField]?.[locale]}</Title>
+        )}
+        <Updated>{formatTimestamp(entry.sys.updatedAt)}</Updated>
+      </Column>
+      <Chevron />
     </Container>
   );
 };
 
-const Container = styled.View`
+const Container = styled.TouchableOpacity`
   padding: 8px 0px;
   border-bottom-color: ${({ theme }) => theme.colors.gray[200]};
   border-bottom-width: 1px;
+  flex-direction: row;
+  align-items: center;
 `;
 
-const Title = styled.Text``;
+const Title = styled.Text`
+  font-size: 13px;
+  font-family: ${font.medium};
+  color: ${({ theme }) => theme.colors.gray[600]};
+`;
+
+const Updated = styled.Text`
+  font-size: 13px;
+  font-family: ${font.medium};
+  color: ${({ theme }) => theme.colors.gray[500]};
+`;
+
+const Column = styled.View`
+  flex: 1;
+`;

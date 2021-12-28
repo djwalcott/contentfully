@@ -4,7 +4,20 @@ import { Link } from '../typings/contentful';
 
 const BASE_URL = 'https://api.contentful.com';
 
-type Model = {
+export type FieldType =
+  | 'Symbol'
+  | 'Array'
+  | 'Text'
+  | 'RichText'
+  | 'Number'
+  | 'Integer'
+  | 'Boolean'
+  | 'Date'
+  | 'Location'
+  | 'Object'
+  | 'Link';
+
+export type Model = {
   sys: {
     space: {
       sys: Link;
@@ -38,7 +51,7 @@ type Model = {
     {
       id: string;
       name: string;
-      type: string;
+      type: FieldType;
       localized: boolean;
       required: boolean;
       validations: [
@@ -59,7 +72,7 @@ type Model = {
     {
       id: string;
       name: string;
-      type: string;
+      type: FieldType;
       localized: boolean;
       required: boolean;
       validations: [];
@@ -69,7 +82,7 @@ type Model = {
     {
       id: string;
       name: string;
-      type: string;
+      type: FieldType;
       localized: boolean;
       required: boolean;
       validations: [];
@@ -127,7 +140,7 @@ export const useModel = (modelID?: string) => {
     ['models', space, environment, modelID],
     async () => {
       const response = await fetch(
-        `${BASE_URL}/spaces/${space}/envsironments/${environment}/content_types/${modelID}`,
+        `${BASE_URL}/spaces/${space}/environments/${environment}/content_types/${modelID}`,
         {
           headers: {
             Authorization: `Bearer ${selected?.content}`,

@@ -14,35 +14,37 @@ export const Toggle: FC<Props> = ({ selected }) => {
   const scale = useSharedValue(0);
 
   useEffect(() => {
-    selected ? (scale.value = 1) : (scale.value = 0);
+    selected ? (scale.value = 0.95) : (scale.value = 0);
   }, [selected, scale]);
 
   const animatedStyles = useAnimatedStyle(() => {
     'worklet';
     return {
-      scale: withSpring(scale.value),
+      transform: [{ scale: withSpring(scale.value) }],
     };
   });
 
   return (
-    <Container onPress={() => (scale.value = Math.random())}>
+    <Container>
       <Circle style={animatedStyles} />
     </Container>
   );
 };
 
-const Container = styled.TouchableOpacity`
-  height: 30px;
-  width: 30px;
+const Container = styled.View`
+  height: 24px;
+  width: 24px;
   border-radius: 15px;
   border-width: 2px;
   border-color: ${({ theme }) => theme.colors.gray[700]};
   margin-right: 8px;
+  justify-content: center;
+  align-items: center;
 `;
 
 const Circle = styled(Animated.View)`
-  height: 10px;
-  width: 10px;
+  height: 16px;
+  width: 16px;
   border-radius: 20px;
-  background-color: red;
+  background-color: ${({ theme: { colors, accent } }) => colors[accent][500]};
 `;
