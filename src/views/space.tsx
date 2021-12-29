@@ -4,17 +4,21 @@ import styled from 'styled-components/native';
 import { Locales } from '../components/locale/locales';
 import { AllUsers } from '../components/user/all-users';
 import { Me } from '../components/user/me';
-import { DrawerNavigatorProps } from '../navigation/navigation';
+import { Webhooks } from '../components/webhooks/webhooks';
+import { SpaceStackParamList } from '../navigation/navigation';
 
-type Props = NativeStackScreenProps<DrawerNavigatorProps, 'Space'>;
+export type SpaceScreenProps = NativeStackScreenProps<
+  SpaceStackParamList,
+  'Space'
+>;
 
-export const Space: FC<Props> = ({ route }) => {
-  console.log('route', route);
+export const Space: FC<SpaceScreenProps> = () => {
   return (
     <ScrollView>
       <Me />
       <Locales />
       <AllUsers />
+      <Webhooks />
     </ScrollView>
   );
 };

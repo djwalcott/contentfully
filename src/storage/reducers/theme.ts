@@ -10,8 +10,8 @@ export type Color =
   | 'fuchsia';
 
 export type ThemeState = {
-  accentColor: Color;
   useSystemTheme: boolean;
+  accentColor: Color;
 };
 
 const initialState: ThemeState = {

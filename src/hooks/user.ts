@@ -11,6 +11,7 @@ type User = {
     createdAt: string;
     updatedAt: string;
   };
+  cookieConsentData: string; // in JSON format
   firstName: string;
   lastName: string;
   avatarUrl: string;
@@ -62,7 +63,7 @@ export const useContentfulUser = (id?: string) => {
   } = useAppSelector(state => state);
 
   return useQuery<User, Error>(
-    ['user', selected],
+    ['user', selected, id],
     async () => {
       try {
         const response = await fetch(

@@ -4,6 +4,7 @@ import { Color } from '../storage/reducers/theme';
 declare module 'styled-components' {
   export interface DefaultTheme {
     accent: Color;
+
     colors: {
       [key in Color]: {
         50: string;

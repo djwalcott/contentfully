@@ -11,13 +11,13 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		4DF075C9AF8543F78C85E23A /* Inter-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = C40FDE8992A745DF851EA90E /* Inter-Regular.otf */; };
 		6172F2D35A4C3AA820D92908 /* libPods-Contentfully.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6423831EA8574132BED9D8CC /* libPods-Contentfully.a */; };
+		7E3E664C363341C0A1476A8B /* Inter-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 62BCA7E4A6EA4B96AEF8FD10 /* Inter-Medium.otf */; };
 		7EF68E3733C33B6898317E18 /* libPods-Contentfully-ContentfullyTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ABFE59519B596E51CEFDCCC0 /* libPods-Contentfully-ContentfullyTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		C1A482FCD6234D3AA8C5AD95 /* Inter-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = A0D22B78564F420F969F1C1C /* Inter-Bold.otf */; };
 		BB75B76E7B1D403FAD9C7A95 /* Inter-ExtraLight.otf in Resources */ = {isa = PBXBuildFile; fileRef = 49BF9FAF44E84FEBA66CD1A4 /* Inter-ExtraLight.otf */; };
-		7E3E664C363341C0A1476A8B /* Inter-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 62BCA7E4A6EA4B96AEF8FD10 /* Inter-Medium.otf */; };
-		4DF075C9AF8543F78C85E23A /* Inter-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = C40FDE8992A745DF851EA90E /* Inter-Regular.otf */; };
+		C1A482FCD6234D3AA8C5AD95 /* Inter-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = A0D22B78564F420F969F1C1C /* Inter-Bold.otf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,17 +41,17 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Contentfully/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Contentfully/main.m; sourceTree = "<group>"; };
 		1D0AE47A65C8663E3B452821 /* Pods-Contentfully-ContentfullyTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Contentfully-ContentfullyTests.release.xcconfig"; path = "Target Support Files/Pods-Contentfully-ContentfullyTests/Pods-Contentfully-ContentfullyTests.release.xcconfig"; sourceTree = "<group>"; };
+		49BF9FAF44E84FEBA66CD1A4 /* Inter-ExtraLight.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-ExtraLight.otf"; path = "../src/assets/fonts/Inter-ExtraLight.otf"; sourceTree = "<group>"; };
+		62BCA7E4A6EA4B96AEF8FD10 /* Inter-Medium.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-Medium.otf"; path = "../src/assets/fonts/Inter-Medium.otf"; sourceTree = "<group>"; };
 		6423831EA8574132BED9D8CC /* libPods-Contentfully.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Contentfully.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6C97AB639B58BBB4B15BBE30 /* Pods-Contentfully-ContentfullyTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Contentfully-ContentfullyTests.debug.xcconfig"; path = "Target Support Files/Pods-Contentfully-ContentfullyTests/Pods-Contentfully-ContentfullyTests.debug.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = Contentfully/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		A0D22B78564F420F969F1C1C /* Inter-Bold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-Bold.otf"; path = "../src/assets/fonts/Inter-Bold.otf"; sourceTree = "<group>"; };
 		ABFE59519B596E51CEFDCCC0 /* libPods-Contentfully-ContentfullyTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Contentfully-ContentfullyTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C0A881CF5CF3F2B244570E2A /* Pods-Contentfully.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Contentfully.debug.xcconfig"; path = "Target Support Files/Pods-Contentfully/Pods-Contentfully.debug.xcconfig"; sourceTree = "<group>"; };
+		C40FDE8992A745DF851EA90E /* Inter-Regular.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-Regular.otf"; path = "../src/assets/fonts/Inter-Regular.otf"; sourceTree = "<group>"; };
 		D00AAFFCFCFDA5787532823F /* Pods-Contentfully.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Contentfully.release.xcconfig"; path = "Target Support Files/Pods-Contentfully/Pods-Contentfully.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
-		A0D22B78564F420F969F1C1C /* Inter-Bold.otf */ = {isa = PBXFileReference; name = "Inter-Bold.otf"; path = "../src/assets/fonts/Inter-Bold.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		49BF9FAF44E84FEBA66CD1A4 /* Inter-ExtraLight.otf */ = {isa = PBXFileReference; name = "Inter-ExtraLight.otf"; path = "../src/assets/fonts/Inter-ExtraLight.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		62BCA7E4A6EA4B96AEF8FD10 /* Inter-Medium.otf */ = {isa = PBXFileReference; name = "Inter-Medium.otf"; path = "../src/assets/fonts/Inter-Medium.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		C40FDE8992A745DF851EA90E /* Inter-Regular.otf */ = {isa = PBXFileReference; name = "Inter-Regular.otf"; path = "../src/assets/fonts/Inter-Regular.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,6 +114,18 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		6D3776427ABB4CD6B556C894 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				A0D22B78564F420F969F1C1C /* Inter-Bold.otf */,
+				49BF9FAF44E84FEBA66CD1A4 /* Inter-ExtraLight.otf */,
+				62BCA7E4A6EA4B96AEF8FD10 /* Inter-Medium.otf */,
+				C40FDE8992A745DF851EA90E /* Inter-Regular.otf */,
+			);
+			name = Resources;
+			path = "";
+			sourceTree = "<group>";
+		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
@@ -156,18 +168,6 @@
 			);
 			path = Pods;
 			sourceTree = "<group>";
-		};
-		6D3776427ABB4CD6B556C894 /* Resources */ = {
-			isa = "PBXGroup";
-			children = (
-				A0D22B78564F420F969F1C1C /* Inter-Bold.otf */,
-				49BF9FAF44E84FEBA66CD1A4 /* Inter-ExtraLight.otf */,
-				62BCA7E4A6EA4B96AEF8FD10 /* Inter-Medium.otf */,
-				C40FDE8992A745DF851EA90E /* Inter-Regular.otf */,
-			);
-			name = Resources;
-			sourceTree = "<group>";
-			path = "";
 		};
 /* End PBXGroup section */
 

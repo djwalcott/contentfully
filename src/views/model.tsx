@@ -1,14 +1,20 @@
 import React, { FC } from 'react';
-import styled from 'styled-components/native';
+import styled, { css } from 'styled-components/native';
 import { CardTitle } from '../components/shared/typography';
 import { useModel } from '../hooks/models';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { Container } from '../components/shared/container';
+import {
+  Container,
+  TitleContainer,
+  UnpaddedContainer,
+} from '../components/shared/container';
 import { FieldIcon, FieldTypeText } from '../components/icons/field-icon';
 import { Error } from '../components/error/error';
 import { RefreshControl } from '../components/shared/refresh-control';
 import { ModelStackParamList } from '../navigation/navigation';
 import { useContentfulUser } from '../hooks/user';
+import { font } from '../styles';
+import { ListButton, ListButtonText } from '../components/shared/text-button';
 
 type Props = NativeStackScreenProps<ModelStackParamList, 'Model'>;
 
@@ -43,6 +49,18 @@ export const Model: FC<Props> = ({
           </Field>
         ))}
       </Container>
+
+      <TitleContainer>
+        <CardTitle>Actions</CardTitle>
+      </TitleContainer>
+      <UnpaddedContainer>
+        <ListButton>
+          <ListButtonText>Deactivate model</ListButtonText>
+        </ListButton>
+        <ListButton noBorder>
+          <ListButtonText>Delete model</ListButtonText>
+        </ListButton>
+      </UnpaddedContainer>
     </ScrollView>
   );
 };

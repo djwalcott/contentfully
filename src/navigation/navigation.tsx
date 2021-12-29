@@ -24,6 +24,7 @@ import { Settings } from '../views/settings';
 import { Space } from '../views/space';
 import { Welcome } from '../views/welcome';
 import { Asset } from '../views/asset';
+import { User } from '../views/user';
 
 type SpaceTabParamList = {
   Home: undefined;
@@ -62,6 +63,14 @@ export type AssetStackParamList = {
 };
 
 const AssetStack = createNativeStackNavigator<AssetStackParamList>();
+
+export type SpaceStackParamList = {
+  Space: undefined;
+  Webhook: { webhookID: string };
+  User: { userID: string };
+};
+
+const SpaceStack = createNativeStackNavigator<SpaceStackParamList>();
 
 const Tab = createBottomTabNavigator<SpaceTabParamList>();
 
@@ -104,14 +113,14 @@ export const DrawerNavigation = () => {
       <Drawer.Screen
         name="Space"
         options={{ title: 'Contentfully' }}
-        component={SpaceNavigator}
+        component={TabNavigator}
       />
       <Drawer.Screen name="Settings" component={Settings} />
     </Drawer.Navigator>
   );
 };
 
-export const SpaceNavigator = () => {
+export const TabNavigator = () => {
   const { accent, colors } = useTheme();
 
   return (
@@ -136,7 +145,7 @@ export const SpaceNavigator = () => {
         tabBarInactiveTintColor: colors.gray[500],
         headerShown: false,
       })}>
-      <Tab.Screen name="Home" component={Space} />
+      <Tab.Screen name="Home" component={SpaceNavigator} />
       <Tab.Screen
         name="Content model"
         options={{ tabBarLabel: 'Models' }}
@@ -179,5 +188,15 @@ const AssetNavigator = () => {
       <AssetStack.Screen name="Assets" component={Assets} />
       <AssetStack.Screen name="Asset" component={Asset} />
     </AssetStack.Navigator>
+  );
+};
+
+const SpaceNavigator = () => {
+  return (
+    <SpaceStack.Navigator screenOptions={{ headerShown: false }}>
+      <SpaceStack.Screen name="Space" component={Space} />
+      <SpaceStack.Screen name="User" component={User} />
+      <SpaceStack.Screen name="Webhook" component={User} />
+    </SpaceStack.Navigator>
   );
 };

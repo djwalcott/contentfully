@@ -2,7 +2,12 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { formatRelative } from 'date-fns';
 import React, { FC } from 'react';
 import styled, { css } from 'styled-components/native';
-import { Container } from '../components/shared/container';
+import {
+  Container,
+  TitleContainer,
+  UnpaddedContainer,
+} from '../components/shared/container';
+import { ListButton, ListButtonText } from '../components/shared/text-button';
 import { CardTitle } from '../components/shared/typography';
 import { useEntry } from '../hooks/entry';
 import { useDefaultLocale } from '../hooks/locales';
@@ -50,8 +55,27 @@ export const Entry: FC<Props> = ({
           </Column>
         </Row>
 
+        <BottomRow>
+          <Column>
+            <Value>{entry?.sys.publishedCounter}</Value>
+            <Title>Publish counter</Title>
+          </Column>
+
+          <Column>
+            <Value>{entry?.sys.publishedVersion}</Value>
+            <Title>Updated</Title>
+          </Column>
+
+          <Column last>
+            <Value>
+              {entry?.sys.publishedAt &&
+                formatRelative(new Date(entry?.sys.publishedAt), new Date())}
+            </Value>
+            <Title>Published</Title>
+          </Column>
+        </BottomRow>
+
         <CardTitle>{model?.name}</CardTitle>
-        <Description>{entry?.sys.publishedAt}</Description>
 
         {entry &&
           Object.keys(entry?.fields).map(fieldKey => (
@@ -64,6 +88,18 @@ export const Entry: FC<Props> = ({
             </Field>
           ))}
       </Container>
+
+      <TitleContainer>
+        <CardTitle>Actions</CardTitle>
+      </TitleContainer>
+      <UnpaddedContainer>
+        <ListButton>
+          <ListButtonText>Unpublish entry</ListButtonText>
+        </ListButton>
+        <ListButton noBorder>
+          <ListButtonText>Archive entry</ListButtonText>
+        </ListButton>
+      </UnpaddedContainer>
     </ScrollView>
   );
 };
@@ -94,11 +130,16 @@ const FieldTitle = styled.Text`
 const FieldContent = styled.Text``;
 
 const Row = styled.View`
-  margin-bottom: 32px;
   padding-bottom: 8px;
   flex-direction: row;
   border-bottom-width: 1px;
   border-bottom-color: ${({ theme }) => theme.colors.gray[200]};
+`;
+
+const BottomRow = styled.View`
+  margin: 8px 0px 32px;
+  padding-bottom: 8px;
+  flex-direction: row;
 `;
 
 type ColumnProps = {
