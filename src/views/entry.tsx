@@ -9,7 +9,7 @@ import {
 } from '../components/shared/container';
 import { ListButton, ListButtonText } from '../components/shared/text-button';
 import { CardTitle } from '../components/shared/typography';
-import { useEntry } from '../hooks/entry';
+import { useEntry, useUnpublishEntry } from '../hooks/entry';
 import { useDefaultLocale } from '../hooks/locales';
 import { useModel } from '../hooks/models';
 import { ContentStackParamList } from '../navigation/navigation';
@@ -26,6 +26,10 @@ export const Entry: FC<Props> = ({
   const { data: entry } = useEntry(entryID);
   const { data: locale } = useDefaultLocale();
   const { data: model } = useModel(entry?.sys.contentType.sys.id);
+
+  const { mutate, error, data } = useUnpublishEntry();
+
+  console.log(error);
   return (
     <ScrollView>
       <Container>
@@ -76,6 +80,7 @@ export const Entry: FC<Props> = ({
         </BottomRow>
 
         <CardTitle>{model?.name}</CardTitle>
+        <CardTitle>{JSON.stringify({ error, data })}</CardTitle>
 
         {entry &&
           Object.keys(entry?.fields).map(fieldKey => (
@@ -93,7 +98,10 @@ export const Entry: FC<Props> = ({
         <CardTitle>Actions</CardTitle>
       </TitleContainer>
       <UnpaddedContainer>
-        <ListButton>
+        <ListButton
+          onPress={() =>
+            mutate({ entryID, unpublish: false, version: entry?.sys.version })
+          }>
           <ListButtonText>Unpublish entry</ListButtonText>
         </ListButton>
         <ListButton noBorder>
@@ -105,17 +113,6 @@ export const Entry: FC<Props> = ({
 };
 
 const ScrollView = styled.ScrollView``;
-
-const Name = styled.Text`
-  font-size: 13px;
-  color: ${({ theme }) => theme.colors.gray[800]};
-`;
-
-const Description = styled(Name)`
-  margin-top: 4px;
-  font-size: 12px;
-  color: ${({ theme }) => theme.colors.gray[600]};
-`;
 
 const Field = styled.View``;
 

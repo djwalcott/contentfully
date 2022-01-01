@@ -3,7 +3,10 @@ import { font } from '../../styles';
 
 type ItemContainerProps = {};
 
-export const ItemContainer = styled.TouchableOpacity<ItemContainerProps>``;
+export const ItemContainer = styled.TouchableOpacity<ItemContainerProps>`
+  flex-direction: row;
+  align-items: center;
+`;
 
 export const Title = styled.Text`
   font-size: 13px;

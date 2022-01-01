@@ -23,4 +23,6 @@ export const Space: FC<SpaceScreenProps> = () => {
   );
 };
 
-const ScrollView = styled.ScrollView``;
+const ScrollView = styled.ScrollView`
+  background-color: ${({ theme }) => theme.colors.gray[100]};
+`;

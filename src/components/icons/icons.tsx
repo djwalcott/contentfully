@@ -39,9 +39,9 @@ export const Block: FC<Props> = ({ color }) => {
 export const NavigationMenu: FC<Props> = ({ color }) => {
   return (
     <Svg
-      fill="none"
+      fill="red"
       strokeWidth="1.5px"
-      stroke={color}
+      stroke="none"
       height={20}
       width={20}
       viewBox="0 0 140 140">

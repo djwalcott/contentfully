@@ -1,8 +1,13 @@
+import { useNavigation } from '@react-navigation/native';
 import React, { FC } from 'react';
 import styled from 'styled-components/native';
 import { useWebhooks } from '../../hooks/webhooks';
 import { font } from '../../styles';
+import { formatTimestamp } from '../../utilities/time';
+import { SpaceScreenProps } from '../../views/space';
 import { Chevron } from '../icons/chevron';
+import { Description, ItemContainer, Title } from '../item/item';
+import { TitleContainer, UnpaddedContainer } from '../shared/container';
 import { CardTitle } from '../shared/typography';
 
 type Props = {
@@ -11,52 +16,30 @@ type Props = {
 
 export const Webhooks: FC<Props> = () => {
   const { data: webhooks } = useWebhooks();
-
+  const navigation = useNavigation<SpaceScreenProps['navigation']>();
   return (
-    <Container>
-      <CardTitle>Webhooks</CardTitle>
-      {webhooks?.items?.map(hook => (
-        <Row key={hook.sys.id}>
-          <Column>
-            <Name>{`${hook.name}`}</Name>
-            <Updated>{hook?.sys.updatedAt}</Updated>
-          </Column>
-          <Chevron />
-        </Row>
-      ))}
-    </Container>
+    <>
+      <TitleContainer>
+        <CardTitle>Webhooks</CardTitle>
+      </TitleContainer>
+      <UnpaddedContainer>
+        {webhooks?.items?.map(hook => (
+          <ItemContainer
+            onPress={() =>
+              navigation.navigate('Webhook', { webhookID: hook.sys.id })
+            }
+            key={hook.sys.id}>
+            <Column>
+              <Title>{`${hook.name}`}</Title>
+              <Description>{formatTimestamp(hook?.sys.updatedAt)}</Description>
+            </Column>
+            <Chevron />
+          </ItemContainer>
+        ))}
+      </UnpaddedContainer>
+    </>
   );
 };
-
-const Container = styled.View`
-  padding: 16px 0px 0px 16px;
-  background-color: white;
-  margin: 8px;
-  border-radius: 4px;
-  border-color: ${({ theme }) => theme.colors.gray[200]};
-  border-width: 1px;
-`;
-
-const Name = styled.Text`
-  font-size: 13px;
-  color: ${({ theme }) => theme.colors.gray[800]};
-  font-family: ${font.regular};
-`;
-
-const Updated = styled(Name)`
-  color: ${({ theme }) => theme.colors.gray[600]};
-  font-size: 12px;
-  font-family: ${font.regular};
-`;
-
-const Row = styled.View`
-  flex-direction: row;
-  align-items: center;
-  margin-bottom: 16px;
-  padding-right: 16px;
-  border-bottom-width: 1px;
-  border-bottom-color: ${({ theme }) => theme.colors.gray[200]};
-`;
 
 const Column = styled.View`
   flex: 1;

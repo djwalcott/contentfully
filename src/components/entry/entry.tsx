@@ -6,8 +6,9 @@ import { useModel } from '../../hooks/models';
 import { font } from '../../styles';
 import { LocaleCode } from '../../typings/locale';
 import { formatTimestamp } from '../../utilities/time';
-import { ContentViewNavigationProp } from '../../views/content';
+import { ContentViewNavigationProp } from '../../views/entries';
 import { Chevron } from '../icons/chevron';
+import { Published } from '../shared/published';
 
 type Props = {
   locale: LocaleCode | undefined;
@@ -15,7 +16,7 @@ type Props = {
 };
 
 export const Entry: FC<Props> = ({ entry, locale }) => {
-  const { data: model } = useModel(entry.sys.contentType.sys.id);
+  const { data: model } = useModel(entry?.sys?.contentType?.sys?.id);
   const navigation = useNavigation<ContentViewNavigationProp['navigation']>();
 
   return (
@@ -26,6 +27,7 @@ export const Entry: FC<Props> = ({ entry, locale }) => {
           <Title>{entry?.fields?.[model?.displayField]?.[locale]}</Title>
         )}
         <Updated>{formatTimestamp(entry.sys.updatedAt)}</Updated>
+        {entry.sys.updatedAt === entry.sys.publishedAt && <Published />}
       </Column>
       <Chevron />
     </Container>

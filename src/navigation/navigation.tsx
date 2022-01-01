@@ -14,17 +14,19 @@ import {
 } from '../components/icons/icons';
 import { TabBar } from '../components/tab-bar/tab-bar';
 import { useAppSelector } from '../storage/store';
+import { font } from '../styles';
 import { theme } from '../styles/theme';
-import { Content as ContentEntries } from '../views/content';
-import { Entry } from '../views/entry';
+import { Asset } from '../views/asset';
 import { Assets } from '../views/assets';
+import { Content as ContentEntries } from '../views/entries';
+import { Entry } from '../views/entry';
 import { Model } from '../views/model';
 import { Models } from '../views/models';
 import { Settings } from '../views/settings';
 import { Space } from '../views/space';
-import { Welcome } from '../views/welcome';
-import { Asset } from '../views/asset';
 import { User } from '../views/user';
+import { Webhook } from '../views/webhook';
+import { Welcome } from '../views/welcome';
 
 type SpaceTabParamList = {
   Home: undefined;
@@ -105,6 +107,7 @@ export const DrawerNavigation = () => {
   return (
     <Drawer.Navigator
       screenOptions={{
+        headerShown: false,
         drawerIcon: ({ color }) => {
           return <NavigationMenu color={color} />;
         },
@@ -158,8 +161,23 @@ export const TabNavigator = () => {
 };
 
 const ContentNavigator = () => {
+  const { colors, accent } = useTheme();
+
   return (
-    <ContentStack.Navigator screenOptions={{ headerShown: false }}>
+    <ContentStack.Navigator
+      screenOptions={{
+        headerLargeTitle: true,
+        headerLargeTitleShadowVisible: false,
+        headerShadowVisible: false,
+        headerTintColor: colors[accent][500],
+        headerStyle: {
+          backgroundColor: colors.gray[100],
+        },
+        headerLargeTitleStyle: {
+          fontFamily: font.bold,
+          color: colors.gray[700],
+        },
+      }}>
       <ContentStack.Screen name="Entries" component={ContentEntries} />
       <ContentStack.Screen name="Entry" component={Entry} />
     </ContentStack.Navigator>
@@ -174,8 +192,23 @@ export type ModelStackParamList = {
 const ModelStack = createNativeStackNavigator<ModelStackParamList>();
 
 const ModelNavigator = () => {
+  const { colors, accent } = useTheme();
+
   return (
-    <ModelStack.Navigator screenOptions={{ headerShown: false }}>
+    <ModelStack.Navigator
+      screenOptions={{
+        headerLargeTitle: true,
+        headerLargeTitleShadowVisible: false,
+        headerShadowVisible: false,
+        headerTintColor: colors[accent][500],
+        headerStyle: {
+          backgroundColor: colors.gray[100],
+        },
+        headerLargeTitleStyle: {
+          fontFamily: font.bold,
+          color: colors.gray[700],
+        },
+      }}>
       <ModelStack.Screen name="Models" component={Models} />
       <ModelStack.Screen name="Model" component={Model} />
     </ModelStack.Navigator>
@@ -183,8 +216,23 @@ const ModelNavigator = () => {
 };
 
 const AssetNavigator = () => {
+  const { colors, accent } = useTheme();
+
   return (
-    <AssetStack.Navigator screenOptions={{ headerShown: false }}>
+    <AssetStack.Navigator
+      screenOptions={{
+        headerLargeTitle: true,
+        headerLargeTitleShadowVisible: false,
+        headerShadowVisible: false,
+        headerTintColor: colors[accent][500],
+        headerStyle: {
+          backgroundColor: colors.gray[100],
+        },
+        headerLargeTitleStyle: {
+          fontFamily: font.bold,
+          color: colors.gray[700],
+        },
+      }}>
       <AssetStack.Screen name="Assets" component={Assets} />
       <AssetStack.Screen name="Asset" component={Asset} />
     </AssetStack.Navigator>
@@ -192,11 +240,31 @@ const AssetNavigator = () => {
 };
 
 const SpaceNavigator = () => {
+  const { colors, accent } = useTheme();
   return (
-    <SpaceStack.Navigator screenOptions={{ headerShown: false }}>
-      <SpaceStack.Screen name="Space" component={Space} />
+    <SpaceStack.Navigator
+      screenOptions={{
+        headerLargeTitle: true,
+        headerLargeTitleShadowVisible: false,
+        headerShadowVisible: false,
+        headerTintColor: colors[accent][500],
+        headerStyle: {
+          backgroundColor: colors.gray[100],
+        },
+        headerLargeTitleStyle: {
+          fontFamily: font.bold,
+          color: colors.gray[700],
+        },
+      }}>
+      <SpaceStack.Screen
+        name="Space"
+        options={{
+          headerLeft: () => <NavigationMenu color={'red'} />,
+        }}
+        component={Space}
+      />
       <SpaceStack.Screen name="User" component={User} />
-      <SpaceStack.Screen name="Webhook" component={User} />
+      <SpaceStack.Screen name="Webhook" component={Webhook} />
     </SpaceStack.Navigator>
   );
 };

@@ -1,4 +1,4 @@
-import { useQuery } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import { useAppSelector } from '../storage/store';
 import { Link } from '../typings/contentful';
 import { LocaleCode } from '../typings/locale';
@@ -58,24 +58,32 @@ type Response = {
   items: Entry[];
 };
 
+type QueryOptions = {
+  limit: number;
+  skip: number;
+};
+
 export const useEntries = () => {
   const {
     tokens: { selected },
     space: { space, environment },
   } = useAppSelector(state => state);
 
+  const url = new URL(
+    `${BASE_URL}/spaces/${space}/environments/${environment}/entries`,
+  );
+
+  url.searchParams;
+
   return useQuery<Response, Error>(
     ['entries', space, environment, selected],
     async () => {
       try {
-        const response = await fetch(
-          `${BASE_URL}/spaces/${space}/environments/${environment}/entries`,
-          {
-            headers: {
-              Authorization: `Bearer ${selected?.content}`,
-            },
+        const response = await fetch(url.href, {
+          headers: {
+            Authorization: `Bearer ${selected?.content}`,
           },
-        );
+        });
 
         return response.json();
       } catch (error) {
@@ -111,5 +119,41 @@ export const useEntry = (entryID?: string) => {
       }
     },
     { enabled: !!space && !!environment && !!selected && !!entryID },
+  );
+};
+
+export const useUnpublishEntry = () => {
+  const {
+    tokens: { selected },
+    space: { space, environment },
+  } = useAppSelector(state => state);
+
+  return useMutation(
+    async ({
+      entryID,
+      unpublish,
+      version,
+    }: {
+      entryID: string;
+      version: number;
+      unpublish: boolean;
+    }) => {
+      try {
+        const response = await fetch(
+          `${BASE_URL}/spaces/${space}/environments/${environment}/entries/${entryID}/published`,
+          {
+            method: unpublish ? 'DELETE' : 'PUT',
+            headers: {
+              'X-Contentful-Version': `${version}`,
+              Authorization: `Bearer ${selected?.content}`,
+            },
+          },
+        );
+
+        return response.json();
+      } catch (error) {
+        return error;
+      }
+    },
   );
 };

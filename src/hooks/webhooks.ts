@@ -5,10 +5,10 @@ import { Link } from '../typings/contentful';
 const BASE_URL = 'https://api.contentful.com';
 
 export type Webhook = {
-  name: 'Post to slack';
-  url: 'https://hooks.slack.com/services/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';
+  name: string;
+  url: string;
   httpBasicUsername: null;
-  topics: ['*.*'];
+  topics: string[];
   filters: null;
   transformation: {
     body: {
@@ -91,7 +91,7 @@ export const useWebhook = (id: string) => {
     space: { space },
   } = useAppSelector(state => state);
 
-  return useQuery<WebhookHealth, Error>(
+  return useQuery<Webhook, Error>(
     ['webhooks', id, space],
     async () => {
       try {
