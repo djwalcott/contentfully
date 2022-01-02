@@ -1,6 +1,6 @@
 ### Hour logging for this project
 
-Total hours at 7.11. = 38
+Total hours at 7.11. = 46
 
 - 23.10.2021 (8h)
   - Creating new React Native project
@@ -29,3 +29,10 @@ Total hours at 7.11. = 38
   - Design and add icons for ios
   - Add Github action for linting and testing
   - Test iOS by building a production version
+- 30.11.2021 (8)
+  - New tab bar with animations
+  - More animations in general
+  - Refactoring on navigation
+  - Card componets
+  - App icon
+  -

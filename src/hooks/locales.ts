@@ -1,12 +1,13 @@
 import { useQuery } from 'react-query';
 import { useAppSelector } from '../storage/store';
+import { LocaleCode } from '../typings/locale';
 
 const BASE_URL = 'https://api.contentful.com';
 
 export type Locale = {
   name?: string;
   internal_code?: string;
-  code?: string;
+  code?: LocaleCode;
   fallbackCode?: string;
   default?: false;
   contentManagementApi?: true;

@@ -1,11 +1,19 @@
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React, { FC } from 'react';
 import styled from 'styled-components/native';
-import { CardTitle } from '../components/typography';
+import { Error } from '../components/error/error';
+import { FieldIcon, FieldTypeText } from '../components/icons/field-icon';
+import {
+  Container,
+  TitleContainer,
+  UnpaddedContainer,
+} from '../components/shared/container';
+import { RefreshControl } from '../components/shared/refresh-control';
+import { ListButton, ListButtonText } from '../components/shared/text-button';
+import { CardTitle } from '../components/shared/typography';
 import { useModel } from '../hooks/models';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { ModelStackParamList } from '../../App';
-import { Container } from '../components/shared/container';
-import { FieldIcon, FieldType } from '../components/icons/field-icon';
+import { useContentfulUser } from '../hooks/user';
+import { ModelStackParamList } from '../navigation/navigation';
 
 type Props = NativeStackScreenProps<ModelStackParamList, 'Model'>;
 
@@ -15,38 +23,43 @@ export const Model: FC<Props> = ({
   },
 }) => {
   const { data, isRefetching, refetch, isError, error } = useModel(modelID);
-
+  const { data: user } = useContentfulUser(data?.sys.publishedBy.sys.id);
   return (
     <ScrollView
       refreshControl={
         <RefreshControl refreshing={isRefetching} onRefresh={refetch} />
       }>
-      {isError && (
-        <ErrorContainer>
-          <ErrorTitle>There was an error</ErrorTitle>
-          <ErrorDescription>{error?.message}</ErrorDescription>
-        </ErrorContainer>
-      )}
+      {isError && <Error error={error} />}
 
       <Container>
         <CardTitle>{data?.name}</CardTitle>
         <Description>{data?.description}</Description>
 
-        <CardTitle>Updated</CardTitle>
-        <Description>By me</Description>
-
         <CardTitle>Fields</CardTitle>
+        <Name>{user?.email}</Name>
 
         {data?.fields?.map(field => (
           <Field key={field.id}>
             <FieldIcon fieldType={field.type} />
             <Column>
               <FieldTitle>{field.name}</FieldTitle>
-              <FieldType fieldType={field.type} />
+              <FieldTypeText fieldType={field.type} />
             </Column>
           </Field>
         ))}
       </Container>
+
+      <TitleContainer>
+        <CardTitle>Actions</CardTitle>
+      </TitleContainer>
+      <UnpaddedContainer>
+        <ListButton>
+          <ListButtonText>Deactivate model</ListButtonText>
+        </ListButton>
+        <ListButton noBorder>
+          <ListButtonText>Delete model</ListButtonText>
+        </ListButton>
+      </UnpaddedContainer>
     </ScrollView>
   );
 };
@@ -84,34 +97,4 @@ const Column = styled.View`
   border-bottom-color: ${({ theme }) => theme.colors.gray[200]};
   padding: 8px 0px;
   width: 100%;
-`;
-
-const RefreshControl = styled.RefreshControl.attrs(({ theme }) => ({
-  tintColor: theme.colors.indigo[600],
-  colors: [
-    theme.colors.indigo[600],
-    theme.colors.indigo[500],
-    theme.colors.indigo[400],
-  ],
-}))``;
-
-const ErrorContainer = styled.View`
-  padding: 16px;
-  background-color: ${({ theme }) => theme.colors.red[50]};
-  margin: 8px;
-  border-radius: 6px;
-  border-color: ${({ theme }) => theme.colors.red[200]};
-  border-width: 1px;
-`;
-
-const ErrorTitle = styled.Text`
-  font-weight: 500;
-  color: ${({ theme }) => theme.colors.red[800]};
-  font-size: 15px;
-  margin-bottom: 4px;
-`;
-
-const ErrorDescription = styled.Text`
-  font-size: 13px;
-  color: ${({ theme }) => theme.colors.red[700]};
 `;

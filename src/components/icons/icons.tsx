@@ -1,11 +1,11 @@
 import React, { FC } from 'react';
 import Svg, {
-  G,
-  Polygon,
-  Line,
-  Ellipse,
-  Path,
   Circle,
+  Ellipse,
+  G,
+  Line,
+  Path,
+  Polygon,
   Rect,
 } from 'react-native-svg';
 
@@ -39,9 +39,9 @@ export const Block: FC<Props> = ({ color }) => {
 export const NavigationMenu: FC<Props> = ({ color }) => {
   return (
     <Svg
-      fill="none"
+      fill={color}
       strokeWidth="1.5px"
-      stroke={color}
+      stroke="none"
       height={20}
       width={20}
       viewBox="0 0 140 140">

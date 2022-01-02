@@ -12,7 +12,7 @@ export const DrawerContent: FC<DrawerContentComponentProps> = props => {
 
   return (
     <DrawerContentScrollView {...props}>
-      {data?.items.map(item => (
+      {data?.items?.map(item => (
         <SpaceCard
           navigation={props.navigation}
           key={item.sys.id}

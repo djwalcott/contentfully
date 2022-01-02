@@ -40,7 +40,7 @@ export const SpaceCard: FC<Props> = ({ name, id, navigation }) => {
 const Container = styled.View`
   padding: 16px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-  background-color: white;
+  background-color: ${({ theme }) => theme.colors.gray[50]};
   margin: 8px;
   border-radius: 4px;
   border-color: ${({ theme }) => theme.colors.gray[200]};

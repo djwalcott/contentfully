@@ -1,34 +1,13 @@
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
-import { StatusBar, useColorScheme } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import {
-  DefaultTheme,
-  ThemeProvider,
-  useTheme,
-} from 'styled-components/native';
-import { DrawerContent } from './src/components/drawer/drawer';
-import { Content as ContentEntries } from './src/views/content';
-import { Models } from './src/views/models';
-import { Media } from './src/views/media';
-import { Model } from './src/views/model';
-import { Settings } from './src/views/settings';
-import { Space } from './src/views/space';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
-
-import {
-  Block,
-  Content,
-  Home,
-  Media as MediaICon,
-  NavigationMenu,
-} from './src/components/icons/icons';
+import { MainNavigation } from './src/navigation/navigation';
 import { persistor, store } from './src/storage/store';
+
+const queryClient = new QueryClient();
 
 if (__DEV__) {
   import('react-query-native-devtools').then(({ addPlugin }) => {
@@ -36,160 +15,17 @@ if (__DEV__) {
   });
 }
 
-export type DrawerNavigatorProps = {
-  Space: { spaceID: string };
-  Settings: undefined;
-};
-
-const Drawer = createDrawerNavigator<DrawerNavigatorProps>();
-const queryClient = new QueryClient();
-
-export type ContentStackParamList = {
-  Entries: undefined;
-  Entry: { entryID: string };
-};
-
-const ContentStack = createNativeStackNavigator<ContentStackParamList>();
-
-const ContentNavigator = () => {
-  return (
-    <ContentStack.Navigator screenOptions={{ headerShown: false }}>
-      <ContentStack.Screen name="Entries" component={ContentEntries} />
-      <ContentStack.Screen name="Entry" component={Model} />
-    </ContentStack.Navigator>
-  );
-};
-
-export type ModelStackParamList = {
-  Models: undefined;
-  Model: { modelID: string };
-};
-
-const ModelStack = createNativeStackNavigator<ModelStackParamList>();
-
-const ModelNavigator = () => {
-  return (
-    <ModelStack.Navigator screenOptions={{ headerShown: false }}>
-      <ModelStack.Screen name="Models" component={Models} />
-      <ModelStack.Screen name="Model" component={Model} />
-    </ModelStack.Navigator>
-  );
-};
-
-const theme: DefaultTheme = {
-  colors: {
-    indigo: {
-      50: '#EEF2FF',
-      100: '#E0E7FF',
-      200: '#C7D2FE',
-      300: '#A5B4FC',
-      400: '#818CF8',
-      500: '#6366F1',
-      600: '#4F46E5',
-      700: '#4338CA',
-      800: '#3730A3',
-      900: '#312E81',
-    },
-    red: {
-      50: '#FEF2F2',
-      100: '#FEE2E2',
-      200: '#FECACA',
-      300: '#FCA5A5',
-      400: '#F87171',
-      500: '#EF4444',
-      600: '#DC2626',
-      700: '#B91C1C',
-      800: '#991B1B',
-      900: '#991B1B',
-    },
-    gray: {
-      50: '#F9FAFB',
-      100: '#F3F4F6',
-      200: '#E5E7EB',
-      300: '#D1D5DB',
-      400: '#9CA3AF',
-      500: '#6B7280',
-      600: '#4B5563',
-      700: '#374151',
-      800: '#1F2937',
-      900: '#111827',
-    },
-  },
-};
-
-type SpaceTabParamList = {
-  Home: undefined;
-  Model: undefined;
-  Content: undefined;
-  Media: undefined;
-};
-
-const Tab = createBottomTabNavigator<SpaceTabParamList>();
-
-const SpaceNavigator = () => {
-  const {
-    colors: { gray, indigo },
-  } = useTheme();
-  return (
-    <Tab.Navigator
-      screenOptions={({ route }) => ({
-        tabBarIcon: ({ focused, color, size }) => {
-          switch (route.name) {
-            case 'Home':
-              return <Home color={color} size={size} focused={focused} />;
-            case 'Model':
-              return <Block color={color} size={size} focused={focused} />;
-            case 'Content':
-              return <Content color={color} size={size} focused={focused} />;
-            case 'Media':
-              return <MediaICon color={color} size={size} focused={focused} />;
-            default:
-              return <Home color={color} size={size} focused={focused} />;
-          }
-        },
-        tabBarActiveTintColor: indigo[500],
-        tabBarInactiveTintColor: gray[500],
-        headerShown: false,
-      })}>
-      <Tab.Screen name="Home" component={Space} />
-      <Tab.Screen name="Model" component={ModelNavigator} />
-      <Tab.Screen name="Content" component={ContentNavigator} />
-      <Tab.Screen name="Media" component={Media} />
-    </Tab.Navigator>
-  );
-};
-
 const App = () => {
-  const isDarkMode = useColorScheme() === 'dark';
-
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <ThemeProvider theme={theme}>
-          <NavigationContainer>
-            <QueryClientProvider client={queryClient}>
-              <SafeAreaProvider>
-                <StatusBar
-                  barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-                />
-                <Drawer.Navigator
-                  screenOptions={{
-                    drawerIcon: ({ color }) => {
-                      return <NavigationMenu color={color} />;
-                    },
-                  }}
-                  drawerContent={props => <DrawerContent {...props} />}>
-                  <Drawer.Screen
-                    name="Space"
-                    options={{ title: 'Contentfully' }}
-                    component={SpaceNavigator}
-                  />
-                  <Drawer.Screen name="Settings" component={Settings} />
-                </Drawer.Navigator>
-              </SafeAreaProvider>
-            </QueryClientProvider>
-          </NavigationContainer>
-        </ThemeProvider>
+        <NavigationContainer>
+          <QueryClientProvider client={queryClient}>
+            <SafeAreaProvider>
+              <MainNavigation />
+            </SafeAreaProvider>
+          </QueryClientProvider>
+        </NavigationContainer>
       </PersistGate>
     </Provider>
   );

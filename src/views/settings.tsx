@@ -1,27 +1,40 @@
-import React, { FC } from 'react';
-import { Button } from 'react-native';
+import React, { FC, useRef } from 'react';
+import { Controller, useForm } from 'react-hook-form';
 import styled from 'styled-components/native';
+import { TokenItem } from '../components/settings/token-item';
+import { PrimaryButton } from '../components/shared/button';
 import { Container } from '../components/shared/container';
-import { Toggle } from '../components/toggle/toggle';
-import { CardDescription, CardTitle } from '../components/typography';
-import { addToken, setSelectedToken, Token } from '../storage/reducers/token';
+import { CardDescription, CardTitle } from '../components/shared/typography';
+import { ThemePicker } from '../components/theme-picker/theme-picker';
+import { addToken } from '../storage/reducers/token';
 import { useAppDispatch, useAppSelector } from '../storage/store';
 
 export const Settings: FC = () => {
   const { tokens, selected } = useAppSelector(state => state.tokens);
   const dispatch = useAppDispatch();
+  const scrollRef = useRef(null);
 
-  const addNewToken = () => {
+  const {
+    control,
+    handleSubmit,
+    reset,
+    formState: { errors, isValid },
+  } = useForm({
+    mode: 'onChange',
+    defaultValues: {
+      name: '',
+      content: '',
+    },
+  });
+
+  const submit = ({ name, content }: { name: string; content: string }) => {
+    reset();
     dispatch(
       addToken({
-        name: 'Salainen tiedekunta',
-        content: '',
+        name: name,
+        content: content,
       }),
     );
-  };
-
-  const selectToken = (token: Token) => {
-    dispatch(setSelectedToken(token));
   };
 
   return (
@@ -33,36 +46,64 @@ export const Settings: FC = () => {
           these instructions.
         </CardDescription>
         {tokens?.map(token => (
-          <TokenItem key={token.name} onPress={() => selectToken(token)}>
-            <Toggle selected={selected?.name === token.name} />
-            <Column>
-              <Name>{token.name}</Name>
-              <TokenContent
-                editable={false}
-                secureTextEntry
-                value="Nothing to show here"
-              />
-            </Column>
-          </TokenItem>
+          <TokenItem
+            simultaneousHandlers={scrollRef}
+            key={token.name}
+            selected={selected?.name === token.name}
+            token={token}
+          />
         ))}
 
         <CardTitle>Add new Token</CardTitle>
-
         <InputLabel>Token name</InputLabel>
-        <Input
-          spellCheck={true}
-          returnKeyType="next"
-          placeholder="ACME Corp Token"
+        <Controller
+          name="name"
+          control={control}
+          rules={{
+            required: true,
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <Input
+              onChangeText={onChange}
+              onBlur={onBlur}
+              value={value}
+              spellCheck={true}
+              returnKeyType="next"
+              placeholder="ACME Corp Token"
+            />
+          )}
         />
 
         <InputLabel>Token</InputLabel>
-        <Input
-          textContentType="password"
-          returnKeyType="done"
-          placeholder="1234Token55678"
+        <Controller
+          name="content"
+          control={control}
+          rules={{
+            required: true,
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <Input
+              onChangeText={onChange}
+              onBlur={onBlur}
+              value={value}
+              textContentType="password"
+              returnKeyType="done"
+              placeholder="1234Token55678"
+            />
+          )}
         />
 
-        <Button title="Add token" onPress={addNewToken} />
+        <PrimaryButton
+          disabled={!isValid}
+          buttonText="Add Token"
+          onPress={handleSubmit(submit)}
+        />
+      </Container>
+
+      <Container>
+        <CardTitle>Theme</CardTitle>
+
+        <ThemePicker />
       </Container>
     </ScrollView>
   );
@@ -75,17 +116,6 @@ const InputLabel = styled.Text`
   color: ${({ theme }) => theme.colors.gray[500]};
 `;
 
-const TokenItem = styled.TouchableOpacity`
-  flex-direction: row;
-  align-items: center;
-  margin-bottom: 16px;
-`;
-
-const TokenContent = styled.TextInput`
-  color: ${({ theme }) => theme.colors.gray[500]};
-  font-size: 13px;
-`;
-
 const Input = styled.TextInput`
   margin: 4px 0px;
   border-width: 1px;
@@ -94,11 +124,3 @@ const Input = styled.TextInput`
   border-radius: 8px;
   font-size: 13px;
 `;
-
-const Name = styled.Text`
-  color: ${({ theme }) => theme.colors.gray[500]};
-  font-weight: 500;
-  font-size: 13px;
-`;
-
-const Column = styled.View``;

@@ -1,0 +1,85 @@
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import React, { FC } from 'react';
+import styled from 'styled-components/native';
+import {
+  Container,
+  TitleContainer,
+  UnpaddedContainer,
+} from '../components/shared/container';
+import { ListButton, ListButtonText } from '../components/shared/text-button';
+import { CardTitle } from '../components/shared/typography';
+import { useContentfulUser } from '../hooks/user';
+import { useWebhook } from '../hooks/webhooks';
+import { SpaceStackParamList } from '../navigation/navigation';
+import { font } from '../styles';
+
+export type WebhookScreenProps = NativeStackScreenProps<
+  SpaceStackParamList,
+  'Webhook'
+>;
+
+type Props = {
+  route: WebhookScreenProps['route'];
+  navigation: WebhookScreenProps['navigation'];
+};
+
+export const Webhook: FC<Props> = ({
+  route: {
+    params: { webhookID },
+  },
+}) => {
+  const { data: webhook } = useWebhook(webhookID);
+  const { data: updatedBy } = useContentfulUser(webhook?.sys.updatedBy.sys.id);
+  const { data: createdBy } = useContentfulUser(webhook?.sys.createdBy.sys.id);
+
+  return (
+    <ScrollView>
+      <TitleContainer>
+        <CardTitle>Webhook</CardTitle>
+      </TitleContainer>
+      <Container>
+        <Field>
+          <Title>URL</Title>
+          <Value>{webhook?.url}</Value>
+        </Field>
+        <Field>
+          <Title>Created</Title>
+          <Value>
+            {webhook?.sys.createdAt} by{' '}
+            {`${createdBy?.firstName} ${createdBy?.lastName}`}
+          </Value>
+        </Field>
+        <Field>
+          <Title>Updated</Title>
+          <Value>
+            {webhook?.sys.updatedAt} by{' '}
+            {`${updatedBy?.firstName} ${updatedBy?.lastName}`}
+          </Value>
+        </Field>
+      </Container>
+
+      <UnpaddedContainer>
+        <ListButton noBorder>
+          <ListButtonText>Delete webhook</ListButtonText>
+        </ListButton>
+      </UnpaddedContainer>
+    </ScrollView>
+  );
+};
+
+const ScrollView = styled.ScrollView``;
+
+const Field = styled.View``;
+
+const Value = styled.Text`
+  font-size: 13px;
+  color: ${({ theme }) => theme.colors.gray[600]}
+  font-family: ${font.medium};
+  margin-bottom: 4px;
+`;
+
+const Title = styled.Text`
+  font-size: 12px;
+  color: ${({ theme }) => theme.colors.gray[500]}
+  font-family: ${font.regular};
+`;

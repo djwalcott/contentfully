@@ -1,18 +1,39 @@
 import React from 'react';
 import styled from 'styled-components/native';
 import { useUser } from '../../hooks/user';
-import { CardTitle } from '../typography';
+import { font } from '../../styles';
+import { Skeleton } from '../shared/skeleton';
+import { CardTitle } from '../shared/typography';
 
 export const Me = () => {
-  const { data } = useUser();
+  const { data: user, isLoading } = useUser();
+
   return (
     <Container>
       <CardTitle>You</CardTitle>
       <Row>
-        <Avatar resizeMode="cover" source={{ uri: data?.avatarUrl }} />
+        <Skeleton
+          isLoading={isLoading}
+          borderRadius={15}
+          width={30}
+          height={30}>
+          <Avatar resizeMode="cover" source={{ uri: user?.avatarUrl }} />
+        </Skeleton>
         <Column>
-          <Name>{`${data?.firstName} ${data?.lastName}`}</Name>
-          <Email>{data?.email}</Email>
+          <NameSkeleton
+            isLoading={isLoading}
+            borderRadius={8}
+            width={150}
+            height={10}>
+            <Name>{`${user?.firstName} ${user?.lastName}`}</Name>
+          </NameSkeleton>
+          <Skeleton
+            isLoading={isLoading}
+            borderRadius={8}
+            width={120}
+            height={10}>
+            <Email>{user?.email}</Email>
+          </Skeleton>
         </Column>
       </Row>
     </Container>
@@ -36,11 +57,13 @@ const Avatar = styled.Image`
 
 const Name = styled.Text`
   font-size: 13px;
-  margin-left: 8px;
+  font-family: ${font.regular};
+  margin: 0;
   color: ${({ theme }) => theme.colors.gray[800]};
 `;
 
 const Email = styled(Name)`
+  font-size: 12px;
   color: ${({ theme }) => theme.colors.gray[600]};
 `;
 
@@ -49,4 +72,10 @@ const Row = styled.View`
   align-items: center;
 `;
 
-const Column = styled.View``;
+const Column = styled.View`
+  margin-left: 8px;
+`;
+
+const NameSkeleton = styled(Skeleton)`
+  margin-bottom: 4px;
+`;

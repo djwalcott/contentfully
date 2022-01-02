@@ -1,10 +1,20 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { formatRelative } from 'date-fns';
 import React, { FC } from 'react';
-import styled from 'styled-components/native';
-import { ContentStackParamList } from '../../App';
-import { Container } from '../components/shared/container';
-import { CardTitle } from '../components/typography';
+import styled, { css } from 'styled-components/native';
+import {
+  Container,
+  TitleContainer,
+  UnpaddedContainer,
+} from '../components/shared/container';
+import { ListButton, ListButtonText } from '../components/shared/text-button';
+import { CardTitle } from '../components/shared/typography';
+import { useEntry, useUnpublishEntry } from '../hooks/entry';
+import { useDefaultLocale } from '../hooks/locales';
 import { useModel } from '../hooks/models';
+import { ContentStackParamList } from '../navigation/navigation';
+import { font } from '../styles';
+import { fieldResolver } from '../utilities/field-resolver';
 
 type Props = NativeStackScreenProps<ContentStackParamList, 'Entry'>;
 
@@ -13,33 +23,146 @@ export const Entry: FC<Props> = ({
     params: { entryID },
   },
 }) => {
-  const { data } = useModel(entryID);
+  const { data: entry } = useEntry(entryID);
+  const { data: locale } = useDefaultLocale();
+  const { data: model } = useModel(entry?.sys.contentType.sys.id);
 
+  const { mutate, error, data } = useUnpublishEntry();
+
+  console.log(error);
   return (
     <ScrollView>
       <Container>
-        <CardTitle>{data?.name}</CardTitle>
-        <Description>{data?.description}</Description>
-        {/*
-        {data?.fields.map(field => (
-          <Field key={field.id}>
-            <FieldTitle>{field.name}</FieldTitle>
-          </Field>
-        ))} */}
+        <Row>
+          <Column>
+            <Value>
+              {entry?.sys.publishedAt &&
+                formatRelative(new Date(entry?.sys.createdAt), new Date())}
+            </Value>
+            <Title>Created</Title>
+          </Column>
+
+          <Column>
+            <Value>
+              {entry?.sys.publishedAt &&
+                formatRelative(new Date(entry?.sys.updatedAt), new Date())}
+            </Value>
+            <Title>Updated</Title>
+          </Column>
+
+          <Column last>
+            <Value>
+              {entry?.sys.publishedAt &&
+                formatRelative(new Date(entry?.sys.publishedAt), new Date())}
+            </Value>
+            <Title>Published</Title>
+          </Column>
+        </Row>
+
+        <BottomRow>
+          <Column>
+            <Value>{entry?.sys.publishedCounter}</Value>
+            <Title>Publish counter</Title>
+          </Column>
+
+          <Column>
+            <Value>{entry?.sys.publishedVersion}</Value>
+            <Title>Updated</Title>
+          </Column>
+
+          <Column last>
+            <Value>
+              {entry?.sys.publishedAt &&
+                formatRelative(new Date(entry?.sys.publishedAt), new Date())}
+            </Value>
+            <Title>Published</Title>
+          </Column>
+        </BottomRow>
+
+        <CardTitle>{model?.name}</CardTitle>
+        <CardTitle>{JSON.stringify({ error, data })}</CardTitle>
+
+        {entry &&
+          Object.keys(entry?.fields).map(fieldKey => (
+            <Field key={entry?.sys.id}>
+              <FieldTitle>{fieldKey}</FieldTitle>
+              <FieldContent>
+                {locale?.code &&
+                  fieldResolver(entry?.fields[fieldKey][locale?.code])}
+              </FieldContent>
+            </Field>
+          ))}
       </Container>
+
+      <TitleContainer>
+        <CardTitle>Actions</CardTitle>
+      </TitleContainer>
+      <UnpaddedContainer>
+        <ListButton
+          onPress={() =>
+            mutate({ entryID, unpublish: false, version: entry?.sys.version })
+          }>
+          <ListButtonText>Unpublish entry</ListButtonText>
+        </ListButton>
+        <ListButton noBorder>
+          <ListButtonText>Archive entry</ListButtonText>
+        </ListButton>
+      </UnpaddedContainer>
     </ScrollView>
   );
 };
 
 const ScrollView = styled.ScrollView``;
 
-const Name = styled.Text`
-  font-size: 13px;
-  color: ${({ theme }) => theme.colors.gray[800]};
+const Field = styled.View``;
+
+const FieldTitle = styled.Text`
+  margin: 8px 0px 4px;
+  font-size: 12px;
+  text-transform: uppercase;
+  font-family: ${font.medium};
+  color: ${({ theme }) => theme.colors.gray[500]};
 `;
 
-const Description = styled(Name)`
-  margin-top: 4px;
+const FieldContent = styled.Text``;
+
+const Row = styled.View`
+  padding-bottom: 8px;
+  flex-direction: row;
+  border-bottom-width: 1px;
+  border-bottom-color: ${({ theme }) => theme.colors.gray[200]};
+`;
+
+const BottomRow = styled.View`
+  margin: 8px 0px 32px;
+  padding-bottom: 8px;
+  flex-direction: row;
+`;
+
+type ColumnProps = {
+  last?: boolean;
+};
+
+const Column = styled.View<ColumnProps>`
+  flex: 1;
+  padding: 0px 8px;
+  ${({ last }) =>
+    !last &&
+    css`
+      border-right-width: 1px;
+      border-right-color: ${({ theme }) => theme.colors.gray[200]};
+    `}
+`;
+
+const Value = styled.Text`
+  font-size: 13px;
+  color: ${({ theme }) => theme.colors.gray[600]}
+  font-family: ${font.medium};
+  margin-bottom: 4px;
+`;
+
+const Title = styled.Text`
   font-size: 12px;
-  color: ${({ theme }) => theme.colors.gray[600]};
+  color: ${({ theme }) => theme.colors.gray[500]}
+  font-family: ${font.regular};
 `;
