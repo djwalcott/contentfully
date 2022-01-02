@@ -4,13 +4,13 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 import { StatusBar, useColorScheme } from 'react-native';
 import { ThemeProvider, useTheme } from 'styled-components/native';
+import { DrawerButton } from '../components/buttons/drawer-button';
 import { DrawerContent } from '../components/drawer/drawer';
 import {
   Block,
   Content,
   Home,
   Media as MediaICon,
-  NavigationMenu,
 } from '../components/icons/icons';
 import { TabBar } from '../components/tab-bar/tab-bar';
 import { useAppSelector } from '../storage/store';
@@ -104,13 +104,12 @@ export const MainNavigation = () => {
 };
 
 export const DrawerNavigation = () => {
+  const { colors, accent } = useTheme();
+
   return (
     <Drawer.Navigator
       screenOptions={{
         headerShown: false,
-        drawerIcon: ({ color }) => {
-          return <NavigationMenu color={color} />;
-        },
       }}
       drawerContent={props => <DrawerContent {...props} />}>
       <Drawer.Screen
@@ -118,7 +117,22 @@ export const DrawerNavigation = () => {
         options={{ title: 'Contentfully' }}
         component={TabNavigator}
       />
-      <Drawer.Screen name="Settings" component={Settings} />
+      <Drawer.Screen
+        name="Settings"
+        options={{
+          headerLeft: () => <DrawerButton />,
+          headerShown: true,
+          headerLeftContainerStyle: {
+            paddingLeft: 16,
+          },
+          headerShadowVisible: false,
+          headerTintColor: colors[accent][500],
+          headerStyle: {
+            backgroundColor: colors.gray[100],
+          },
+        }}
+        component={Settings}
+      />
     </Drawer.Navigator>
   );
 };
@@ -178,7 +192,13 @@ const ContentNavigator = () => {
           color: colors.gray[700],
         },
       }}>
-      <ContentStack.Screen name="Entries" component={ContentEntries} />
+      <ContentStack.Screen
+        name="Entries"
+        options={{
+          headerLeft: () => <DrawerButton />,
+        }}
+        component={ContentEntries}
+      />
       <ContentStack.Screen name="Entry" component={Entry} />
     </ContentStack.Navigator>
   );
@@ -209,7 +229,13 @@ const ModelNavigator = () => {
           color: colors.gray[700],
         },
       }}>
-      <ModelStack.Screen name="Models" component={Models} />
+      <ModelStack.Screen
+        name="Models"
+        options={{
+          headerLeft: () => <DrawerButton />,
+        }}
+        component={Models}
+      />
       <ModelStack.Screen name="Model" component={Model} />
     </ModelStack.Navigator>
   );
@@ -233,7 +259,13 @@ const AssetNavigator = () => {
           color: colors.gray[700],
         },
       }}>
-      <AssetStack.Screen name="Assets" component={Assets} />
+      <AssetStack.Screen
+        name="Assets"
+        options={{
+          headerLeft: () => <DrawerButton />,
+        }}
+        component={Assets}
+      />
       <AssetStack.Screen name="Asset" component={Asset} />
     </AssetStack.Navigator>
   );
@@ -259,7 +291,7 @@ const SpaceNavigator = () => {
       <SpaceStack.Screen
         name="Space"
         options={{
-          headerLeft: () => <NavigationMenu color={'red'} />,
+          headerLeft: () => <DrawerButton />,
         }}
         component={Space}
       />

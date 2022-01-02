@@ -3,6 +3,8 @@ import React, { FC } from 'react';
 import styled from 'styled-components/native';
 import { useUsers } from '../../hooks/user';
 import { SpaceScreenProps } from '../../views/space';
+import { Chevron } from '../icons/chevron';
+import { Description, Title } from '../item/item';
 import { AnimatedBone } from '../shared/bone';
 import { CardTitle } from '../shared/typography';
 
@@ -23,9 +25,10 @@ export const AllUsers: FC<Props> = () => {
           onPress={() => navigation.navigate('User', { userID: user.sys.id })}>
           <Avatar resizeMode="cover" source={{ uri: user?.avatarUrl }} />
           <Column>
-            <Name>{`${user?.firstName} ${user?.lastName}`}</Name>
-            <Email>{user?.email}</Email>
+            <Title>{`${user?.firstName} ${user?.lastName}`}</Title>
+            <Description>{user?.email}</Description>
           </Column>
+          <Chevron />
         </Row>
       ))}
     </Container>

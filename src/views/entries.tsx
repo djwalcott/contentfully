@@ -1,5 +1,5 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import React, { FC } from 'react';
+import React, { FC, useLayoutEffect, useState } from 'react';
 import styled from 'styled-components/native';
 import { Entry } from '../components/entry/entry';
 import { Container } from '../components/shared/container';
@@ -16,13 +16,27 @@ export type ContentViewNavigationProp = NativeStackScreenProps<
 >;
 
 type Props = {
-  navigation: ContentViewNavigationProp;
+  navigation: ContentViewNavigationProp['navigation'];
 };
 
-export const Content: FC<Props> = () => {
-  const { data, isRefetching, refetch } = useEntries();
+export const Content: FC<Props> = ({ navigation }) => {
+  const [search, setSearch] = useState<string | undefined>(undefined);
+
+  const { data, isRefetching, refetch } = useEntries([
+    { type: 'query', parameter: search },
+  ]);
   const { data: locale } = useDefaultLocale();
   const { data: models } = useModels();
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerSearchBarOptions: {
+        onSearchButtonPress: event => setSearch(event.nativeEvent.text),
+        onCancelButtonPress: () => setSearch(undefined),
+      },
+    });
+  }, [navigation]);
+
   return (
     <ScrollView
       refreshControl={
@@ -37,7 +51,7 @@ export const Content: FC<Props> = () => {
       </HContainer>
 
       <Container>
-        <CardTitle>Entries</CardTitle>
+        <CardTitle>{JSON.stringify(search)}</CardTitle>
         {data?.items?.map(item => {
           return <Entry locale={locale?.code} entry={item} key={item.sys.id} />;
         })}

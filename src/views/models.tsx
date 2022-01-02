@@ -1,17 +1,31 @@
 import formatRelative from 'date-fns/formatRelative';
-import React, { FC } from 'react';
+import React, { FC, useLayoutEffect, useState } from 'react';
 import styled from 'styled-components/native';
 import { useModels } from '../hooks/models';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { ModelStackParamList } from '../navigation/navigation';
+import { RefreshControl } from '../components/shared/refresh-control';
 
 type Props = NativeStackScreenProps<ModelStackParamList, 'Model'>;
 
 export const Models: FC<Props> = ({ navigation }) => {
-  const { data } = useModels();
+  const { data, isRefetching, refetch } = useModels();
+  const [search, setSearch] = useState<undefined | string>(undefined);
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerSearchBarOptions: {
+        onSearchButtonPress: event => setSearch(event.nativeEvent.text),
+        onCancelButtonPress: () => setSearch(undefined),
+      },
+    });
+  }, [navigation]);
 
   return (
-    <ScrollView>
+    <ScrollView
+      refreshControl={
+        <RefreshControl onRefresh={refetch} refreshing={isRefetching} />
+      }>
       <Container>
         <TableHeader>
           <TableHeaderCell>

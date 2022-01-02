@@ -58,12 +58,14 @@ type Response = {
   items: Entry[];
 };
 
-type QueryOptions = {
-  limit: number;
-  skip: number;
+type QueryParams = {
+  type: 'limit' | 'skip' | 'order' | 'query';
+  parameter?: string;
 };
 
-export const useEntries = () => {
+type QueryOptions = QueryParams[];
+
+export const useEntries = (queryOptions?: QueryOptions) => {
   const {
     tokens: { selected },
     space: { space, environment },
@@ -73,10 +75,14 @@ export const useEntries = () => {
     `${BASE_URL}/spaces/${space}/environments/${environment}/entries`,
   );
 
-  url.searchParams;
+  queryOptions?.forEach(({ type, parameter }) => {
+    if (type && parameter) {
+      url.searchParams.append(type, parameter);
+    }
+  });
 
   return useQuery<Response, Error>(
-    ['entries', space, environment, selected],
+    ['entries', space, environment, selected, queryOptions],
     async () => {
       try {
         const response = await fetch(url.href, {

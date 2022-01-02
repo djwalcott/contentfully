@@ -1,20 +1,19 @@
-import React, { FC } from 'react';
-import styled, { css } from 'styled-components/native';
-import { CardTitle } from '../components/shared/typography';
-import { useModel } from '../hooks/models';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import React, { FC } from 'react';
+import styled from 'styled-components/native';
+import { Error } from '../components/error/error';
+import { FieldIcon, FieldTypeText } from '../components/icons/field-icon';
 import {
   Container,
   TitleContainer,
   UnpaddedContainer,
 } from '../components/shared/container';
-import { FieldIcon, FieldTypeText } from '../components/icons/field-icon';
-import { Error } from '../components/error/error';
 import { RefreshControl } from '../components/shared/refresh-control';
-import { ModelStackParamList } from '../navigation/navigation';
-import { useContentfulUser } from '../hooks/user';
-import { font } from '../styles';
 import { ListButton, ListButtonText } from '../components/shared/text-button';
+import { CardTitle } from '../components/shared/typography';
+import { useModel } from '../hooks/models';
+import { useContentfulUser } from '../hooks/user';
+import { ModelStackParamList } from '../navigation/navigation';
 
 type Props = NativeStackScreenProps<ModelStackParamList, 'Model'>;
 

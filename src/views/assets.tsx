@@ -1,5 +1,5 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import React, { FC } from 'react';
+import React, { FC, useLayoutEffect, useState } from 'react';
 import styled from 'styled-components/native';
 import { MediaItem } from '../components/media/media-item';
 import { Container } from '../components/shared/container';
@@ -14,8 +14,19 @@ export type AllMediaScreenProp = NativeStackScreenProps<
 >;
 
 export const Assets: FC<AllMediaScreenProp> = ({ navigation }) => {
+  const [search, setSearch] = useState<undefined | string>(undefined);
   const { data, refetch, isRefetching } = useAssets();
   const { data: locale } = useDefaultLocale();
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerSearchBarOptions: {
+        onSearchButtonPress: event => setSearch(event.nativeEvent.text),
+        onCancelButtonPress: () => setSearch(undefined),
+      },
+    });
+  }, [navigation]);
+
   return (
     <ScrollView
       refreshControl={
