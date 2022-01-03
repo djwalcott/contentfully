@@ -20,7 +20,7 @@ const initialState: ThemeState = {
 };
 
 export const themeSlice = createSlice({
-  name: 'tokens',
+  name: 'theme',
   initialState,
   reducers: {
     toggleUseSystemTheme: (state, action: PayloadAction<boolean>) => {

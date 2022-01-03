@@ -1,5 +1,7 @@
 import React, { FC, useRef } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { Button } from 'react-native';
+import { Notifications } from 'react-native-notifications';
 import styled from 'styled-components/native';
 import { TokenItem } from '../components/settings/token-item';
 import { PrimaryButton } from '../components/shared/button';
@@ -11,6 +13,8 @@ import { useAppDispatch, useAppSelector } from '../storage/store';
 
 export const Settings: FC = () => {
   const { tokens, selected } = useAppSelector(state => state.tokens);
+  const { deviceToken } = useAppSelector(state => state.notifications);
+
   const dispatch = useAppDispatch();
   const scrollRef = useRef(null);
 
@@ -37,10 +41,14 @@ export const Settings: FC = () => {
     );
   };
 
+  const debug = () => {
+    console.log('whitte');
+    Notifications.registerRemoteNotifications();
+  };
   return (
     <ScrollView>
       <Container>
-        <CardTitle>Management tokens</CardTitle>
+        <CardTitle selectable>Management tokens {deviceToken}</CardTitle>
         <CardDescription>
           To create a Contenful Management token in Contentful dashboard, follow
           these instructions.
@@ -56,6 +64,7 @@ export const Settings: FC = () => {
 
         <CardTitle>Add new Token</CardTitle>
         <InputLabel>Token name</InputLabel>
+        <Button title="Allow notifications" onPress={debug} />
         <Controller
           name="name"
           control={control}

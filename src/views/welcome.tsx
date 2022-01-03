@@ -58,41 +58,43 @@ export const Welcome: FC<Props> = ({ navigation }) => {
     }
   };
 
-  const gestureHandler = useAnimatedGestureHandler<
-    PanGestureHandlerGestureEvent,
-    Context
-  >({
-    onStart: (_, ctx) => {
-      ctx.translateX = translateX.value;
-      ctx.translateY = translateY.value;
-    },
-    onActive: (event, ctx) => {
-      translateX.value = ctx.translateX + event.translationX;
-      translateY.value = ctx.translateY + event.translationY;
-    },
-    onEnd: _ => {
-      translateX.value = withSpring(0);
-      translateY.value = withSpring(0);
-    },
-  });
+  // const gestureHandler = useAnimatedGestureHandler<
+  //   PanGestureHandlerGestureEvent,
+  //   Context
+  // >({
+  //   onStart: (_, ctx) => {
+  //     ctx.translateX = translateX.value;
+  //     ctx.translateY = translateY.value;
+  //   },
+  //   onActive: (event, ctx) => {
+  //     translateX.value = ctx.translateX + event.translationX;
+  //     translateY.value = ctx.translateY + event.translationY;
+  //   },
+  //   onEnd: _ => {
+  //     translateX.value = withSpring(0);
+  //     translateY.value = withSpring(0);
+  //   },
+  // });
 
-  const animatedStyle = useAnimatedStyle(() => {
-    return {
-      transform: [
-        {
-          translateX: translateX.value,
-        },
-        { translateY: translateY.value },
-      ],
-    };
-  });
+  // const animatedStyle = useAnimatedStyle(() => {
+  //   'worklet';
+  //   return {
+  //     transform: [
+  //       {
+  //         translateX: translateX.value,
+  //       },
+  //       { translateY: translateY.value },
+  //     ],
+  //   };
+  // });
+
   return (
     <SafeAreaView>
       <ScrollView>
         <Container>
           <Column>
-            <PanGestureHandler onGestureEvent={gestureHandler}>
-              <IconContainer style={animatedStyle}>
+            <PanGestureHandler>
+              <IconContainer>
                 <Icon source={icon} />
               </IconContainer>
             </PanGestureHandler>

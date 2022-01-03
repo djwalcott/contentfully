@@ -1,8 +1,14 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StatusBar, useColorScheme } from 'react-native';
+import {
+  Notification,
+  Notifications,
+  Registered,
+  RegistrationError,
+} from 'react-native-notifications';
 import { ThemeProvider, useTheme } from 'styled-components/native';
 import { DrawerButton } from '../components/buttons/drawer-button';
 import { DrawerContent } from '../components/drawer/drawer';
@@ -13,7 +19,8 @@ import {
   Media as MediaICon,
 } from '../components/icons/icons';
 import { TabBar } from '../components/tab-bar/tab-bar';
-import { useAppSelector } from '../storage/store';
+import { setDeviceToken } from '../storage/reducers/notifications';
+import { useAppDispatch, useAppSelector } from '../storage/store';
 import { font } from '../styles';
 import { theme } from '../styles/theme';
 import { Asset } from '../views/asset';
@@ -82,6 +89,37 @@ export const MainNavigation = () => {
   const { tokens } = useAppSelector(state => state.tokens);
   const { accentColor } = useAppSelector(state => state.theme);
   const isDarkMode = useColorScheme() === 'dark';
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    Notifications.events().registerRemoteNotificationsRegistered(
+      (event: Registered) => {
+        dispatch(setDeviceToken(event.deviceToken));
+        console.warn('Device Token Received', event.deviceToken);
+      },
+    );
+    Notifications.events().registerRemoteNotificationsRegistrationFailed(
+      (event: RegistrationError) => {
+        console.error(event);
+      },
+    );
+
+    Notifications.events().registerNotificationReceivedForeground(
+      (notification: Notification, completion) => {
+        console.log(
+          `Notification received in foreground: ${notification.title} : ${notification.body}`,
+        );
+        completion({ alert: false, sound: false, badge: false });
+      },
+    );
+
+    Notifications.events().registerNotificationOpened(
+      (notification: Notification, completion) => {
+        console.log(`Notification opened: ${notification.payload}`);
+        completion();
+      },
+    );
+  }, [dispatch]);
 
   return (
     <ThemeProvider theme={{ ...theme, accent: accentColor }}>
