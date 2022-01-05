@@ -14,7 +14,10 @@ type Props = {
 
 export const MediaItem: FC<Props> = ({ locale, media, navigation }) => {
   const open = () => {
-    navigation.navigate('Asset', { assetID: media.sys.id });
+    navigation.navigate('Asset', {
+      assetID: media.sys.id,
+      title: locale ? media?.fields?.file?.[locale]?.fileName : 'Media',
+    });
   };
 
   return (

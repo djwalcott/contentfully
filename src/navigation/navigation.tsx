@@ -49,7 +49,7 @@ export type MainStackParamList = {
 
 export type MediaNavigator = {
   Media: undefined;
-  MediaEntry: { id: string };
+  MediaEntry: { id: string; title: string };
 };
 
 export type DrawerNavigatorProps = {
@@ -68,15 +68,15 @@ const ContentStack = createNativeStackNavigator<ContentStackParamList>();
 
 export type AssetStackParamList = {
   Assets: undefined;
-  Asset: { assetID: string };
+  Asset: { assetID: string; title: string };
 };
 
 const AssetStack = createNativeStackNavigator<AssetStackParamList>();
 
 export type SpaceStackParamList = {
   Space: undefined;
-  Webhook: { webhookID: string };
-  User: { userID: string };
+  Webhook: { webhookID: string; title: string };
+  User: { userID: string; name: string };
 };
 
 const SpaceStack = createNativeStackNavigator<SpaceStackParamList>();
@@ -281,7 +281,6 @@ const ModelNavigator = () => {
 
 const AssetNavigator = () => {
   const { colors, accent } = useTheme();
-
   return (
     <AssetStack.Navigator
       screenOptions={{
@@ -304,7 +303,14 @@ const AssetNavigator = () => {
         }}
         component={Assets}
       />
-      <AssetStack.Screen name="Asset" component={Asset} />
+
+      <AssetStack.Screen
+        name="Asset"
+        options={({ route }) => ({
+          headerTitle: route.params.title,
+        })}
+        component={Asset}
+      />
     </AssetStack.Navigator>
   );
 };
@@ -333,8 +339,20 @@ const SpaceNavigator = () => {
         }}
         component={Space}
       />
-      <SpaceStack.Screen name="User" component={User} />
-      <SpaceStack.Screen name="Webhook" component={Webhook} />
+      <SpaceStack.Screen
+        name="User"
+        component={User}
+        options={({ route }) => ({
+          headerTitle: route.params.name,
+        })}
+      />
+      <SpaceStack.Screen
+        name="Webhook"
+        options={({ route }) => ({
+          headerTitle: route.params.title,
+        })}
+        component={Webhook}
+      />
     </SpaceStack.Navigator>
   );
 };

@@ -62,7 +62,7 @@ export const Content: FC<Props> = ({ navigation }) => {
 
 const ScrollView = styled.ScrollView``;
 
-const HContainer = styled.View`
+const HContainer = styled.ScrollView`
   flex-direction: row;
   background-color: white;
   margin: 8px;

@@ -2,12 +2,11 @@ import { useNavigation } from '@react-navigation/native';
 import React, { FC } from 'react';
 import styled from 'styled-components/native';
 import { useWebhooks } from '../../hooks/webhooks';
-import { font } from '../../styles';
 import { formatTimestamp } from '../../utilities/time';
 import { SpaceScreenProps } from '../../views/space';
 import { Chevron } from '../icons/chevron';
 import { Description, ItemContainer, Title } from '../item/item';
-import { TitleContainer, UnpaddedContainer } from '../shared/container';
+import { Container, TitleContainer } from '../shared/container';
 import { CardTitle } from '../shared/typography';
 
 type Props = {
@@ -22,11 +21,14 @@ export const Webhooks: FC<Props> = () => {
       <TitleContainer>
         <CardTitle>Webhooks</CardTitle>
       </TitleContainer>
-      <UnpaddedContainer>
+      <Container>
         {webhooks?.items?.map(hook => (
           <ItemContainer
             onPress={() =>
-              navigation.navigate('Webhook', { webhookID: hook.sys.id })
+              navigation.navigate('Webhook', {
+                webhookID: hook.sys.id,
+                title: hook.name,
+              })
             }
             key={hook.sys.id}>
             <Column>
@@ -36,7 +38,7 @@ export const Webhooks: FC<Props> = () => {
             <Chevron />
           </ItemContainer>
         ))}
-      </UnpaddedContainer>
+      </Container>
     </>
   );
 };

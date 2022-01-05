@@ -1,5 +1,5 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import styled, { css } from 'styled-components/native';
 import { Container } from '../components/shared/container';
 import { Skeleton } from '../components/shared/skeleton';
@@ -15,6 +15,7 @@ export type SpaceScreenProps = NativeStackScreenProps<
 
 type Props = {
   route: SpaceScreenProps['route'];
+  navigation: SpaceScreenProps['navigation'];
 };
 
 export const User: FC<Props> = ({

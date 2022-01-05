@@ -91,7 +91,7 @@ export const TokenItem: FC<Props> = ({
   });
 
   return (
-    <OuterContainer>
+    <OuterContainer onPress={() => selectToken()}>
       <PanGestureHandler
         simultaneousHandlers={simultaneousHandlers}
         onGestureEvent={panGesture}>
@@ -134,4 +134,4 @@ const Name = styled.Text`
 
 const Column = styled.View``;
 
-const OuterContainer = styled.View``;
+const OuterContainer = styled.TouchableOpacity``;

@@ -22,7 +22,12 @@ export const AllUsers: FC<Props> = () => {
       {data?.items?.map(user => (
         <Row
           key={user.sys.id}
-          onPress={() => navigation.navigate('User', { userID: user.sys.id })}>
+          onPress={() =>
+            navigation.navigate('User', {
+              userID: user.sys.id,
+              name: `${user.firstName} ${user.lastName}`,
+            })
+          }>
           <Avatar resizeMode="cover" source={{ uri: user?.avatarUrl }} />
           <Column>
             <Title>{`${user?.firstName} ${user?.lastName}`}</Title>
