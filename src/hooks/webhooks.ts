@@ -162,26 +162,26 @@ export const useWebhookHealth = (id: string) => {
   );
 };
 
-export const removeWebhook = (id: string) => {
+export const useDeleteWebhook = () => {
   const {
     tokens: { selected },
     space: { space },
   } = useAppSelector(state => state);
 
-  return useMutation(async id => {
-    try {
-      const response = await fetch(
-        `${BASE_URL}/spaces/${space}/webhook_definitions/${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${selected?.content}`,
-          },
+  return useMutation(async (id: string) => {
+    console.warn('ID', id);
+    const response = await fetch(
+      `${BASE_URL}/spaces/${space}/webhook_definitions/${id}`,
+      {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${selected?.content}`,
         },
-      );
-
-      return response.json();
-    } catch (error) {
-      return error;
+      },
+    );
+    if (!response.ok) {
+      console.log(await response.json());
+      throw new Error('Something went wrong');
     }
   });
 };

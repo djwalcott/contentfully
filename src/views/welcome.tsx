@@ -126,7 +126,6 @@ export const Welcome: FC<Props> = ({ navigation }) => {
               />
             )}
           />
-          {errors.name && <Text>asdasd</Text>}
 
           <InputLabel>Token</InputLabel>
           <Controller

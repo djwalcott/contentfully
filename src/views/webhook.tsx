@@ -1,3 +1,4 @@
+import { useActionSheet } from '@expo/react-native-action-sheet';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React, { FC } from 'react';
 import styled from 'styled-components/native';
@@ -32,6 +33,21 @@ export const Webhook: FC<Props> = ({
   const { data: updatedBy } = useContentfulUser(webhook?.sys.updatedBy.sys.id);
   const { data: createdBy } = useContentfulUser(webhook?.sys.createdBy.sys.id);
 
+  const { showActionSheetWithOptions } = useActionSheet();
+
+  const handleDelete = () => {
+    showActionSheetWithOptions(
+      {
+        options: ['Delete', 'Cancel'],
+        cancelButtonIndex: 1,
+        destructiveButtonIndex: 0,
+      },
+      buttonIndex => {
+        console.log(buttonIndex);
+      },
+    );
+  };
+
   return (
     <ScrollView>
       <TitleContainer>
@@ -56,10 +72,20 @@ export const Webhook: FC<Props> = ({
             {`${updatedBy?.firstName} ${updatedBy?.lastName}`}
           </Value>
         </Field>
+
+        <Field>
+          <Title>Topics</Title>
+          <Value>{JSON.stringify(webhook?.topics)}</Value>
+        </Field>
+
+        <Field>
+          <Title>Topics</Title>
+          <Value>{JSON.stringify(webhook?.headers)}</Value>
+        </Field>
       </Container>
 
       <UnpaddedContainer>
-        <ListButton noBorder>
+        <ListButton onPress={handleDelete} noBorder>
           <ListButtonText>Delete webhook</ListButtonText>
         </ListButton>
       </UnpaddedContainer>
