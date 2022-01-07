@@ -8,6 +8,7 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
+import { CardTitle } from '../shared/typography';
 
 const colors: Color[] = ['stone', 'emerald', 'indigo', 'fuchsia', 'red'];
 
@@ -38,19 +39,25 @@ export const ThemePicker: FC = () => {
   return (
     <Container>
       <ThemePreview />
+      <CardTitle>Accent color</CardTitle>
       <ColorOptions
         onLayout={event => {
           const { width: containerWidth } = event.nativeEvent.layout;
           setWidth(containerWidth + 20);
         }}>
         <CircleContainer style={animatedStyles} />
-
         {colors.map(color => (
-          <ColorCircle onPress={() => selectColor(color)} color={color}>
+          <ColorCircle
+            key={color}
+            onPress={() => selectColor(color)}
+            color={color}>
             <InnerCircle />
           </ColorCircle>
         ))}
       </ColorOptions>
+
+      <CardTitle>Background color</CardTitle>
+      <CardTitle>Text color</CardTitle>
     </Container>
   );
 };

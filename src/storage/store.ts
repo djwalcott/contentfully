@@ -15,6 +15,7 @@ import { tokensReducer } from './reducers/token';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import { spaceReducer } from './reducers/space';
 import { themeReducer } from './reducers/theme';
+import { notificationsReducer } from './reducers/notifications';
 export const storage = new MMKV();
 
 export type RootState = ReturnType<typeof store.getState>;
@@ -24,6 +25,7 @@ const rootReducer = combineReducers({
   tokens: tokensReducer,
   space: spaceReducer,
   theme: themeReducer,
+  notifications: notificationsReducer,
 });
 
 export const reduxStorage: Storage = {

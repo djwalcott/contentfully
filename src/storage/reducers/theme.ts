@@ -7,6 +7,7 @@ export type Color =
   | 'emerald'
   | 'green'
   | 'gray'
+  | 'orange'
   | 'fuchsia';
 
 export type ThemeState = {
@@ -20,7 +21,7 @@ const initialState: ThemeState = {
 };
 
 export const themeSlice = createSlice({
-  name: 'tokens',
+  name: 'theme',
   initialState,
   reducers: {
     toggleUseSystemTheme: (state, action: PayloadAction<boolean>) => {

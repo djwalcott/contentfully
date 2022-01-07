@@ -1,14 +1,10 @@
-import { useNavigation } from '@react-navigation/native';
 import React, { FC } from 'react';
-import styled from 'styled-components/native';
-import { useWebhooks } from '../../hooks/webhooks';
-import { font } from '../../styles';
-import { formatTimestamp } from '../../utilities/time';
-import { SpaceScreenProps } from '../../views/space';
-import { Chevron } from '../icons/chevron';
-import { Description, ItemContainer, Title } from '../item/item';
-import { TitleContainer, UnpaddedContainer } from '../shared/container';
+import { Button } from 'react-native';
+import { useCreateNotifications } from '../../hooks/notification';
+import { useDeleteWebhook, useWebhooks } from '../../hooks/webhooks';
+import { Container, TitleContainer } from '../shared/container';
 import { CardTitle } from '../shared/typography';
+import { WebhookItem } from './webhook-item';
 
 type Props = {
   spaceID?: string;
@@ -16,32 +12,21 @@ type Props = {
 
 export const Webhooks: FC<Props> = () => {
   const { data: webhooks } = useWebhooks();
-  const navigation = useNavigation<SpaceScreenProps['navigation']>();
+  const { mutate: removeHook } = useDeleteWebhook();
+  const { mutate: createH } = useCreateNotifications();
+
   return (
     <>
       <TitleContainer>
         <CardTitle>Webhooks</CardTitle>
       </TitleContainer>
-      <UnpaddedContainer>
-        {webhooks?.items?.map(hook => (
-          <ItemContainer
-            onPress={() =>
-              navigation.navigate('Webhook', { webhookID: hook.sys.id })
-            }
-            key={hook.sys.id}>
-            <Column>
-              <Title>{`${hook.name}`}</Title>
-              <Description>{formatTimestamp(hook?.sys.updatedAt)}</Description>
-            </Column>
-            <Chevron />
-          </ItemContainer>
+
+      <Container>
+        <Button title="Test" onPress={() => createH()} />
+        {webhooks?.map(hook => (
+          <WebhookItem removeHook={removeHook} key={hook.sys.id} hook={hook} />
         ))}
-      </UnpaddedContainer>
+      </Container>
     </>
   );
 };
-
-const Column = styled.View`
-  flex: 1;
-  padding-bottom: 8px;
-`;

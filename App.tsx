@@ -6,6 +6,7 @@ import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { MainNavigation } from './src/navigation/navigation';
 import { persistor, store } from './src/storage/store';
+import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
 const queryClient = new QueryClient();
 
@@ -17,17 +18,19 @@ if (__DEV__) {
 
 const App = () => {
   return (
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <NavigationContainer>
-          <QueryClientProvider client={queryClient}>
-            <SafeAreaProvider>
-              <MainNavigation />
-            </SafeAreaProvider>
-          </QueryClientProvider>
-        </NavigationContainer>
-      </PersistGate>
-    </Provider>
+    <ActionSheetProvider>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <NavigationContainer>
+            <QueryClientProvider client={queryClient}>
+              <SafeAreaProvider>
+                <MainNavigation />
+              </SafeAreaProvider>
+            </QueryClientProvider>
+          </NavigationContainer>
+        </PersistGate>
+      </Provider>
+    </ActionSheetProvider>
   );
 };
 

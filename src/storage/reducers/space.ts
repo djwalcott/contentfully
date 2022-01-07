@@ -13,7 +13,7 @@ export type SpaceState = {
 const initialState: SpaceState = {};
 
 export const spaceSlice = createSlice({
-  name: 'tokens',
+  name: 'space',
   initialState,
   reducers: {
     setSpace: (state, action: PayloadAction<string>) => {

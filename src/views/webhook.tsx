@@ -1,3 +1,4 @@
+import { useActionSheet } from '@expo/react-native-action-sheet';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React, { FC } from 'react';
 import styled from 'styled-components/native';
@@ -9,7 +10,7 @@ import {
 import { ListButton, ListButtonText } from '../components/shared/text-button';
 import { CardTitle } from '../components/shared/typography';
 import { useContentfulUser } from '../hooks/user';
-import { useWebhook } from '../hooks/webhooks';
+import { useDeleteWebhook, useWebhook } from '../hooks/webhooks';
 import { SpaceStackParamList } from '../navigation/navigation';
 import { font } from '../styles';
 
@@ -27,10 +28,29 @@ export const Webhook: FC<Props> = ({
   route: {
     params: { webhookID },
   },
+  navigation,
 }) => {
   const { data: webhook } = useWebhook(webhookID);
   const { data: updatedBy } = useContentfulUser(webhook?.sys.updatedBy.sys.id);
   const { data: createdBy } = useContentfulUser(webhook?.sys.createdBy.sys.id);
+  const { mutate: deleteHook } = useDeleteWebhook();
+  const { showActionSheetWithOptions } = useActionSheet();
+
+  const handleDelete = () => {
+    showActionSheetWithOptions(
+      {
+        options: ['Delete', 'Cancel'],
+        cancelButtonIndex: 1,
+        destructiveButtonIndex: 0,
+      },
+      buttonIndex => {
+        if (buttonIndex === 0) {
+          deleteHook(webhookID);
+          navigation.navigate('Space');
+        }
+      },
+    );
+  };
 
   return (
     <ScrollView>
@@ -40,7 +60,7 @@ export const Webhook: FC<Props> = ({
       <Container>
         <Field>
           <Title>URL</Title>
-          <Value>{webhook?.url}</Value>
+          <Value selectable>{webhook?.url}</Value>
         </Field>
         <Field>
           <Title>Created</Title>
@@ -56,10 +76,25 @@ export const Webhook: FC<Props> = ({
             {`${updatedBy?.firstName} ${updatedBy?.lastName}`}
           </Value>
         </Field>
+
+        <Field>
+          <Title>Topics</Title>
+          <Value>{JSON.stringify(webhook?.topics)}</Value>
+        </Field>
+
+        <Field>
+          <Title>Topics</Title>
+          <Value>{JSON.stringify(webhook?.headers)}</Value>
+        </Field>
+
+        <Field>
+          <Title>Topics</Title>
+          <Value>{JSON.stringify(webhook?.headers)}</Value>
+        </Field>
       </Container>
 
       <UnpaddedContainer>
-        <ListButton noBorder>
+        <ListButton onPress={handleDelete} noBorder>
           <ListButtonText>Delete webhook</ListButtonText>
         </ListButton>
       </UnpaddedContainer>
@@ -69,7 +104,9 @@ export const Webhook: FC<Props> = ({
 
 const ScrollView = styled.ScrollView``;
 
-const Field = styled.View``;
+const Field = styled.View`
+  margin-bottom: 8px;
+`;
 
 const Value = styled.Text`
   font-size: 13px;

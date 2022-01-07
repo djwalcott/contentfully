@@ -1,6 +1,7 @@
 import React, { FC, useRef } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import styled from 'styled-components/native';
+import { NotificationsSettings } from '../components/notifications/notifications-settings';
 import { TokenItem } from '../components/settings/token-item';
 import { PrimaryButton } from '../components/shared/button';
 import { Container } from '../components/shared/container';
@@ -11,6 +12,8 @@ import { useAppDispatch, useAppSelector } from '../storage/store';
 
 export const Settings: FC = () => {
   const { tokens, selected } = useAppSelector(state => state.tokens);
+  const { deviceToken } = useAppSelector(state => state.notifications);
+
   const dispatch = useAppDispatch();
   const scrollRef = useRef(null);
 
@@ -40,7 +43,7 @@ export const Settings: FC = () => {
   return (
     <ScrollView>
       <Container>
-        <CardTitle>Management tokens</CardTitle>
+        <CardTitle selectable>Management tokens {deviceToken}</CardTitle>
         <CardDescription>
           To create a Contenful Management token in Contentful dashboard, follow
           these instructions.
@@ -100,16 +103,20 @@ export const Settings: FC = () => {
         />
       </Container>
 
+      <NotificationsSettings />
+
       <Container>
         <CardTitle>Theme</CardTitle>
-
         <ThemePicker />
       </Container>
     </ScrollView>
   );
 };
 
-const ScrollView = styled.ScrollView``;
+const ScrollView = styled.ScrollView`
+  width: 100%;
+  flex: 1;
+`;
 
 const InputLabel = styled.Text`
   font-size: 13px;

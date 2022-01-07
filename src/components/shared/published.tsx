@@ -1,6 +1,43 @@
 import React from 'react';
-import { Text } from 'react-native';
+import styled from 'styled-components/native';
+import { font } from '../../styles';
 
-export const Published = () => <Text>Published</Text>;
+export const Published = () => (
+  <PublishedContainer>
+    <PublishedText>Published</PublishedText>
+  </PublishedContainer>
+);
 
-// https://app.contentful.com/spaces/2bj8pq0ood89/entries?id=QfFdajEoBYZFhZnH&contentTypeId=lesson&order.fieldId=updatedAt&order.direction=descending&displayedFieldIds=updatedAt&displayedFieldIds=author&folderId=N44OMJ0WiE3xWpKC&page=1&filters.0.key=__status&filters.0.val=archived
+const PublishedContainer = styled.View`
+  background-color: ${({ theme }) => theme.colors.green[200]};
+  padding: 2px 4px;
+  border-radius: 4px;
+`;
+
+const PublishedText = styled.Text`
+  font-size: 8px;
+  color: ${({ theme }) => theme.colors.green[700]};
+  font-family: ${font.bold};
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+`;
+
+export const Draft = () => (
+  <DraftContainer>
+    <DraftText>Draft</DraftText>
+  </DraftContainer>
+);
+
+const DraftContainer = styled.View`
+  background-color: ${({ theme }) => theme.colors.orange[200]};
+  padding: 2px 4px;
+  border-radius: 4px;
+`;
+
+const DraftText = styled.Text`
+  font-size: 8px;
+  color: ${({ theme }) => theme.colors.orange[700]};
+  font-family: ${font.bold};
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+`;

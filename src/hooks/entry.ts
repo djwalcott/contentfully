@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from 'react-query';
+import { useInfiniteQuery, useMutation, useQuery } from 'react-query';
 import { useAppSelector } from '../storage/store';
 import { Link } from '../typings/contentful';
 import { LocaleCode } from '../typings/locale';
@@ -65,6 +65,12 @@ type QueryParams = {
 
 type QueryOptions = QueryParams[];
 
+type Page = {
+  pages: Response;
+  skip: number;
+  entries: Entry[];
+};
+
 export const useEntries = (queryOptions?: QueryOptions) => {
   const {
     tokens: { selected },
@@ -72,7 +78,7 @@ export const useEntries = (queryOptions?: QueryOptions) => {
   } = useAppSelector(state => state);
 
   const url = new URL(
-    `${BASE_URL}/spaces/${space}/environments/${environment}/entries`,
+    `${BASE_URL}/spaces/${space}/environments/${environment}/entries?limit=25&skip=0`,
   );
 
   queryOptions?.forEach(({ type, parameter }) => {
@@ -81,22 +87,36 @@ export const useEntries = (queryOptions?: QueryOptions) => {
     }
   });
 
-  return useQuery<Response, Error>(
-    ['entries', space, environment, selected, queryOptions],
-    async () => {
-      try {
-        const response = await fetch(url.href, {
-          headers: {
-            Authorization: `Bearer ${selected?.content}`,
-          },
-        });
+  return useInfiniteQuery<Response, Error, Page>(
+    ['entries', { space, environment, queryOptions }],
+    async ({ pageParam = 0 }) => {
+      url.searchParams.set('skip', `${pageParam}`);
 
-        return response.json();
-      } catch (error) {
-        return error;
-      }
+      const response = await fetch(url.href, {
+        headers: {
+          Authorization: `Bearer ${selected?.content}`,
+        },
+      });
+
+      return response.json();
     },
-    { enabled: !!space && !!environment && !!selected },
+    {
+      enabled: !!space && !!environment && !!selected,
+      select: data => {
+        const allPagesArray: Entry[][] = [];
+        data?.pages?.forEach(entryArray =>
+          allPagesArray.push(entryArray.items),
+        );
+        const flatEntries = allPagesArray.flat();
+        return {
+          pages: data.pages,
+          pageParams: data.pageParams,
+          entries: flatEntries,
+        };
+      },
+      getNextPageParam: lastPage =>
+        lastPage.skip + 25 < lastPage.total ? lastPage.skip + 25 : undefined,
+    },
   );
 };
 

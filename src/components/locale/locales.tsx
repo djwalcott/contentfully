@@ -1,15 +1,28 @@
-import React, { FC } from 'react';
+import React, { FC, useCallback, useMemo, useRef } from 'react';
 import styled from 'styled-components/native';
 import { useLocales } from '../../hooks/locales';
 import { font } from '../../styles';
 import { AnimatedBone } from '../shared/bone';
 import { SkeletenList } from '../shared/skeleton-list';
 import { CardTitle } from '../shared/typography';
+import BottomSheet from '@gorhom/bottom-sheet';
+import { View } from 'react-native';
+import { Text } from 'react-native-svg';
 
 type Props = {};
 
 export const Locales: FC<Props> = () => {
   const { data, isLoading } = useLocales();
+
+  const bottomSheetRef = useRef<BottomSheet>(null);
+
+  // variables
+  const snapPoints = useMemo(() => ['25%', '50%'], []);
+
+  // callbacks
+  const handleSheetChanges = useCallback((index: number) => {
+    console.log('handleSheetChanges', index);
+  }, []);
 
   return (
     <Container>
@@ -40,6 +53,18 @@ export const Locales: FC<Props> = () => {
           </>
         }
       />
+
+      <ContentContainer>
+        <BottomSheet
+          ref={bottomSheetRef}
+          index={1}
+          snapPoints={snapPoints}
+          onChange={handleSheetChanges}>
+          <BottomSheetContainer>
+            <Text>Awesome 🎉</Text>
+          </BottomSheetContainer>
+        </BottomSheet>
+      </ContentContainer>
     </Container>
   );
 };
@@ -88,4 +113,15 @@ const Skeleton = styled.View`
 
 const NameBone = styled(AnimatedBone)`
   margin-bottom: 4px;
+`;
+
+const BottomSheetContainer = styled.View`
+  flex: 1;
+  padding: 16px;
+  background-color: ${({ theme }) => theme.colors.gray[50]};
+`;
+
+const ContentContainer = styled.View`
+  flex: 1;
+  align-items: center;
 `;

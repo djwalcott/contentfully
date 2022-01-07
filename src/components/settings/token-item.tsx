@@ -56,11 +56,11 @@ export const TokenItem: FC<Props> = ({
         translateX.value = withTiming(-SCREEN_WIDTH);
         itemHeight.value = withTiming(0);
         marginVertical.value = withTiming(0);
-        opacity.value = withTiming(0, undefined, isFinished => {
-          if (isFinished && onDismiss) {
-            runOnJS(onDismiss)(token);
-          }
-        });
+        // opacity.value = withTiming(0, undefined, isFinished => {
+        //   if (isFinished && onDismiss) {
+        //     runOnJS(onDismiss)(token);
+        //   }
+        // });
       } else {
         translateX.value = withTiming(0);
       }
@@ -91,7 +91,7 @@ export const TokenItem: FC<Props> = ({
   });
 
   return (
-    <OuterContainer>
+    <OuterContainer onPress={() => selectToken()}>
       <PanGestureHandler
         simultaneousHandlers={simultaneousHandlers}
         onGestureEvent={panGesture}>
@@ -134,4 +134,4 @@ const Name = styled.Text`
 
 const Column = styled.View``;
 
-const OuterContainer = styled.View``;
+const OuterContainer = styled.TouchableOpacity``;
