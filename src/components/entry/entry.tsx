@@ -8,7 +8,7 @@ import { LocaleCode } from '../../typings/locale';
 import { formatTimestamp } from '../../utilities/time';
 import { ContentViewNavigationProp } from '../../views/entries';
 import { Chevron } from '../icons/chevron';
-import { Published } from '../shared/published';
+import { Draft, Published } from '../shared/published';
 
 type Props = {
   locale: LocaleCode | undefined;
@@ -23,11 +23,17 @@ export const Entry: FC<Props> = ({ entry, locale }) => {
     <Container
       onPress={() => navigation.navigate('Entry', { entryID: entry.sys.id })}>
       <Column>
-        {model?.displayField && locale && (
-          <Title>{entry?.fields?.[model?.displayField]?.[locale]}</Title>
-        )}
+        <TopRow>
+          {model?.displayField && locale && (
+            <Title>{entry?.fields?.[model?.displayField]?.[locale]}</Title>
+          )}
+          {entry.sys.updatedAt === entry.sys.publishedAt ? (
+            <Published />
+          ) : (
+            <Draft />
+          )}
+        </TopRow>
         <Updated>{formatTimestamp(entry.sys.updatedAt)}</Updated>
-        {entry.sys.updatedAt === entry.sys.publishedAt && <Published />}
       </Column>
       <Chevron />
     </Container>
@@ -46,6 +52,7 @@ const Title = styled.Text`
   font-size: 13px;
   font-family: ${font.medium};
   color: ${({ theme }) => theme.colors.gray[600]};
+  flex: 1;
 `;
 
 const Updated = styled.Text`
@@ -56,4 +63,11 @@ const Updated = styled.Text`
 
 const Column = styled.View`
   flex: 1;
+  padding-right: 8px;
+`;
+
+const TopRow = styled.View`
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
 `;

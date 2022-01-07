@@ -10,7 +10,7 @@ import {
 import { ListButton, ListButtonText } from '../components/shared/text-button';
 import { CardTitle } from '../components/shared/typography';
 import { useContentfulUser } from '../hooks/user';
-import { useWebhook } from '../hooks/webhooks';
+import { useDeleteWebhook, useWebhook } from '../hooks/webhooks';
 import { SpaceStackParamList } from '../navigation/navigation';
 import { font } from '../styles';
 
@@ -28,11 +28,12 @@ export const Webhook: FC<Props> = ({
   route: {
     params: { webhookID },
   },
+  navigation,
 }) => {
   const { data: webhook } = useWebhook(webhookID);
   const { data: updatedBy } = useContentfulUser(webhook?.sys.updatedBy.sys.id);
   const { data: createdBy } = useContentfulUser(webhook?.sys.createdBy.sys.id);
-
+  const { mutate: deleteHook } = useDeleteWebhook();
   const { showActionSheetWithOptions } = useActionSheet();
 
   const handleDelete = () => {
@@ -43,7 +44,10 @@ export const Webhook: FC<Props> = ({
         destructiveButtonIndex: 0,
       },
       buttonIndex => {
-        console.log(buttonIndex);
+        if (buttonIndex === 0) {
+          deleteHook(webhookID);
+          navigation.navigate('Space');
+        }
       },
     );
   };
@@ -56,7 +60,7 @@ export const Webhook: FC<Props> = ({
       <Container>
         <Field>
           <Title>URL</Title>
-          <Value>{webhook?.url}</Value>
+          <Value selectable>{webhook?.url}</Value>
         </Field>
         <Field>
           <Title>Created</Title>
@@ -82,6 +86,11 @@ export const Webhook: FC<Props> = ({
           <Title>Topics</Title>
           <Value>{JSON.stringify(webhook?.headers)}</Value>
         </Field>
+
+        <Field>
+          <Title>Topics</Title>
+          <Value>{JSON.stringify(webhook?.headers)}</Value>
+        </Field>
       </Container>
 
       <UnpaddedContainer>
@@ -95,7 +104,9 @@ export const Webhook: FC<Props> = ({
 
 const ScrollView = styled.ScrollView``;
 
-const Field = styled.View``;
+const Field = styled.View`
+  margin-bottom: 8px;
+`;
 
 const Value = styled.Text`
   font-size: 13px;

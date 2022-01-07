@@ -1,8 +1,7 @@
 import React, { FC, useRef } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { Button } from 'react-native';
-import { Notifications } from 'react-native-notifications';
 import styled from 'styled-components/native';
+import { NotificationsSettings } from '../components/notifications/notifications-settings';
 import { TokenItem } from '../components/settings/token-item';
 import { PrimaryButton } from '../components/shared/button';
 import { Container } from '../components/shared/container';
@@ -41,10 +40,6 @@ export const Settings: FC = () => {
     );
   };
 
-  const debug = () => {
-    console.log('whitte');
-    Notifications.registerRemoteNotifications();
-  };
   return (
     <ScrollView>
       <Container>
@@ -64,7 +59,6 @@ export const Settings: FC = () => {
 
         <CardTitle>Add new Token</CardTitle>
         <InputLabel>Token name</InputLabel>
-        <Button title="Allow notifications" onPress={debug} />
         <Controller
           name="name"
           control={control}
@@ -109,16 +103,20 @@ export const Settings: FC = () => {
         />
       </Container>
 
+      <NotificationsSettings />
+
       <Container>
         <CardTitle>Theme</CardTitle>
-
         <ThemePicker />
       </Container>
     </ScrollView>
   );
 };
 
-const ScrollView = styled.ScrollView``;
+const ScrollView = styled.ScrollView`
+  width: 100%;
+  flex: 1;
+`;
 
 const InputLabel = styled.Text`
   font-size: 13px;

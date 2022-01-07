@@ -9,6 +9,7 @@ import { useEntries } from '../hooks/entry';
 import { useDefaultLocale } from '../hooks/locales';
 import { useModels } from '../hooks/models';
 import { ContentStackParamList } from '../navigation/navigation';
+import { font } from '../styles';
 
 export type ContentViewNavigationProp = NativeStackScreenProps<
   ContentStackParamList,
@@ -24,6 +25,7 @@ export const Content: FC<Props> = ({ navigation }) => {
 
   const { data, isRefetching, refetch } = useEntries([
     { type: 'query', parameter: search },
+    { type: 'limit', parameter: '25' },
   ]);
   const { data: locale } = useDefaultLocale();
   const { data: models } = useModels();
@@ -42,7 +44,7 @@ export const Content: FC<Props> = ({ navigation }) => {
       refreshControl={
         <RefreshControl refreshing={isRefetching} onRefresh={refetch} />
       }>
-      <HContainer>
+      <HContainer horizontal>
         {models?.items?.map(model => (
           <ModelButton key={model.sys.id}>
             <ButtonText>{model.name}</ButtonText>
@@ -51,7 +53,6 @@ export const Content: FC<Props> = ({ navigation }) => {
       </HContainer>
 
       <Container>
-        <CardTitle>{JSON.stringify(search)}</CardTitle>
         {data?.items?.map(item => {
           return <Entry locale={locale?.code} entry={item} key={item.sys.id} />;
         })}
@@ -67,11 +68,16 @@ const HContainer = styled.ScrollView`
   background-color: white;
   margin: 8px;
   border-radius: 8px;
-  padding: 16px;
+  padding: 8px 16px;
 `;
 
 const ModelButton = styled.TouchableOpacity`
   flex: 1;
+  padding: 8px 8px;
 `;
 
-const ButtonText = styled.Text``;
+const ButtonText = styled.Text`
+  font-size: 13px;
+  color: ${({ theme }) => theme.colors.gray[500]};
+  font-family: ${font.regular};
+`;

@@ -27,7 +27,7 @@ export const Entry: FC<Props> = ({
   const { data: locale } = useDefaultLocale();
   const { data: model } = useModel(entry?.sys.contentType.sys.id);
 
-  const { mutate, error, data } = useUnpublishEntry();
+  const { mutate, error } = useUnpublishEntry();
 
   console.log(error);
   return (
@@ -79,12 +79,9 @@ export const Entry: FC<Props> = ({
           </Column>
         </BottomRow>
 
-        <CardTitle>{model?.name}</CardTitle>
-        <CardTitle>{JSON.stringify({ error, data })}</CardTitle>
-
         {entry &&
           Object.keys(entry?.fields).map(fieldKey => (
-            <Field key={entry?.sys.id}>
+            <Field key={`${entry?.sys.id}_${fieldKey}`}>
               <FieldTitle>{fieldKey}</FieldTitle>
               <FieldContent>
                 {locale?.code &&

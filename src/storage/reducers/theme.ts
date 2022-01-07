@@ -7,6 +7,7 @@ export type Color =
   | 'emerald'
   | 'green'
   | 'gray'
+  | 'orange'
   | 'fuchsia';
 
 export type ThemeState = {

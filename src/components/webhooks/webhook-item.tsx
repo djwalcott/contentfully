@@ -22,7 +22,7 @@ import { Chevron } from '../icons/chevron';
 import { DeleteIcon } from '../icons/delete';
 import { Description, ItemContainer, Title } from '../item/item';
 
-const windowDimensions = Dimensions.get('window');
+const WIDTH = Dimensions.get('window').width - 16;
 const BUTTON_WIDTH = 80;
 const MAX_TRANSLATE = -BUTTON_WIDTH;
 
@@ -96,7 +96,7 @@ export const WebhookItem: FC<Props> = ({ hook, removeHook }) => {
         }),
         transform: [
           {
-            translateX: withTiming(-windowDimensions.width, timingConfig),
+            translateX: withTiming(-WIDTH, timingConfig),
           },
         ],
       };
@@ -148,12 +148,12 @@ const Column = styled.View`
 `;
 
 const ButtonContainer = styled.View`
-  width: ${windowDimensions.width}px;
-  padding-right: ${windowDimensions.width - BUTTON_WIDTH}px;
+  width: ${WIDTH}px;
+  padding-right: ${WIDTH - BUTTON_WIDTH}px;
   flex: 1;
   justify-content: center;
   align-items: center;
-  background-color: red;
+  background-color: ${({ theme }) => theme.colors.red[500]};
 `;
 
 const DeleteButton = styled.TouchableOpacity`
@@ -166,6 +166,6 @@ const ButtonsContainer = styled.View`
   position: absolute;
   top: 0;
   bottom: 0;
-  left: ${windowDimensions.width}px;
-  width: ${windowDimensions.width}px;
+  left: ${WIDTH}px;
+  width: ${WIDTH}px;
 `;

@@ -19,3 +19,14 @@ export const Description = styled.Text`
   font-family: ${font.regular};
   color: ${({ theme }) => theme.colors.gray[600]};
 `;
+
+type Props = {
+  onPress: () => void;
+  onDelete: () => void;
+};
+
+export const ListItem = () => {
+  return <Container></Container>;
+};
+
+const Container = styled.View``;

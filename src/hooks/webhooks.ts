@@ -169,7 +169,6 @@ export const useDeleteWebhook = () => {
   } = useAppSelector(state => state);
 
   return useMutation(async (id: string) => {
-    console.warn('ID', id);
     const response = await fetch(
       `${BASE_URL}/spaces/${space}/webhook_definitions/${id}`,
       {
@@ -180,7 +179,6 @@ export const useDeleteWebhook = () => {
       },
     );
     if (!response.ok) {
-      console.log(await response.json());
       throw new Error('Something went wrong');
     }
   });
