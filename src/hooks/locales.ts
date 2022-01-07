@@ -89,6 +89,34 @@ export const useLocales = () => {
   );
 };
 
+export const useLocale = () => {
+  const {
+    tokens: { selected },
+    space: { space, environment },
+  } = useAppSelector(state => state);
+
+  return useQuery<Locale, Error>(
+    ['locale', space, environment],
+    async () => {
+      try {
+        const response = await fetch(
+          `${BASE_URL}/spaces/${space}/environments/${environment}/locales`,
+          {
+            headers: {
+              Authorization: `Bearer ${selected?.content}`,
+            },
+          },
+        );
+
+        return response.json();
+      } catch (error) {
+        return error;
+      }
+    },
+    { enabled: !!space && !!environment && !!selected },
+  );
+};
+
 export const useDefaultLocale = () => {
   const {
     tokens: { selected },

@@ -1,6 +1,8 @@
 import React, { FC, useEffect, useState } from 'react';
+import { Button } from 'react-native';
 import { Notifications } from 'react-native-notifications';
 import styled from 'styled-components/native';
+import { useCreateNotifications } from '../../hooks/notification';
 import { useAppDispatch, useAppSelector } from '../../storage/store';
 import { font } from '../../styles';
 import { Container } from '../shared/container';
@@ -10,6 +12,8 @@ export const NotificationsSettings: FC = () => {
   const dispatch = useAppDispatch();
   const { deviceToken } = useAppSelector(({ notifications }) => notifications);
   const [isRegistered, setIsRegistered] = useState(false);
+
+  const { mutate } = useCreateNotifications();
 
   useEffect(() => {
     const check = async () => {
@@ -24,6 +28,10 @@ export const NotificationsSettings: FC = () => {
     Notifications.registerRemoteNotifications();
   };
 
+  const test = () => {
+    mutate();
+  };
+
   return (
     <>
       <FloatingTitle>Notifications</FloatingTitle>
@@ -32,7 +40,7 @@ export const NotificationsSettings: FC = () => {
         <Debug>
           <DebugText selectable>{`Device token is ${deviceToken}`} </DebugText>
         </Debug>
-
+        <Button title="Test" onPress={test} />
         <Description>
           In order to receive notifications Contentfully needs to create a
           custom webhook

@@ -1,5 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React, { FC, useLayoutEffect, useState } from 'react';
+import { FlatList } from 'react-native';
 import styled from 'styled-components/native';
 import { Entry } from '../components/entry/entry';
 import { Container } from '../components/shared/container';
@@ -23,9 +24,8 @@ type Props = {
 export const Content: FC<Props> = ({ navigation }) => {
   const [search, setSearch] = useState<string | undefined>(undefined);
 
-  const { data, isRefetching, refetch } = useEntries([
+  const { data, isRefetching, refetch, fetchNextPage } = useEntries([
     { type: 'query', parameter: search },
-    { type: 'limit', parameter: '25' },
   ]);
   const { data: locale } = useDefaultLocale();
   const { data: models } = useModels();
@@ -39,29 +39,33 @@ export const Content: FC<Props> = ({ navigation }) => {
     });
   }, [navigation]);
 
+  console.log(data);
+
   return (
-    <ScrollView
+    <FlatList
       refreshControl={
         <RefreshControl refreshing={isRefetching} onRefresh={refetch} />
-      }>
-      <HContainer horizontal>
-        {models?.items?.map(model => (
-          <ModelButton key={model.sys.id}>
-            <ButtonText>{model.name}</ButtonText>
-          </ModelButton>
-        ))}
-      </HContainer>
-
-      <Container>
-        {data?.items?.map(item => {
-          return <Entry locale={locale?.code} entry={item} key={item.sys.id} />;
-        })}
-      </Container>
-    </ScrollView>
+      }
+      style={{}}
+      contentContainerStyle={{ paddingHorizontal: 16 }}
+      ListHeaderComponent={() => (
+        <HContainer horizontal>
+          {models?.items?.map(model => (
+            <ModelButton key={model.sys.id}>
+              <ButtonText>{model.name}</ButtonText>
+            </ModelButton>
+          ))}
+        </HContainer>
+      )}
+      data={data?.entries}
+      renderItem={({ item }) => (
+        <Entry locale={locale?.code} entry={item} key={item?.sys?.id} />
+      )}
+      progressViewOffset={100}
+      onEndReached={() => fetchNextPage()}
+    />
   );
 };
-
-const ScrollView = styled.ScrollView``;
 
 const HContainer = styled.ScrollView`
   flex-direction: row;

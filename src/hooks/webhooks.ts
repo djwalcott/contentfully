@@ -45,7 +45,7 @@ export type Webhook = {
   headers: [];
 };
 
-type Response = {
+export type WebhooksResponse = {
   total: number;
   limit: number;
   skip: number;
@@ -61,8 +61,8 @@ export const useWebhooks = () => {
     space: { space },
   } = useAppSelector(state => state);
 
-  return useQuery<Response, Error>(
-    ['webhooks', space],
+  return useQuery<WebhooksResponse, Error, Webhook[]>(
+    ['webhooks', { space }],
     async () => {
       try {
         const response = await fetch(
@@ -81,6 +81,7 @@ export const useWebhooks = () => {
     },
     {
       enabled: !!space && !!selected,
+      select: data => data.items,
     },
   );
 };
@@ -92,7 +93,7 @@ export const useWebhook = (id: string) => {
   } = useAppSelector(state => state);
 
   return useQuery<Webhook, Error>(
-    ['webhooks', id, space],
+    ['webhooks', id, { space }],
     async () => {
       try {
         const response = await fetch(

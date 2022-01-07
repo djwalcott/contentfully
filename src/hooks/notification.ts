@@ -1,9 +1,10 @@
 import { useMutation, useQueryClient } from 'react-query';
 import { useAppSelector } from '../storage/store';
+import { WebhooksResponse } from './webhooks';
 
 const BASE_URL = 'https://api.contentful.com';
 
-export const useCreateHook = () => {
+export const useCreateNotifications = () => {
   const {
     tokens: { selected },
     space: { space },
@@ -45,7 +46,22 @@ export const useCreateHook = () => {
       return response.json();
     },
     {
-      onSuccess: data => {},
+      onMutate: async newHook => {
+        await queryClient.cancelQueries('webhooks');
+        const previousHooks = queryClient.getQueryData(['webhooks', { space }]);
+        console.log(previousHooks);
+        queryClient.setQueryData(['webhooks', { space }], old => ({
+          ...old,
+          items: [...old.items, newHook],
+        }));
+        return { previousHooks };
+      },
+      onError: (_error, newHook, context) => {
+        queryClient.setQueryData('todos', context.previousHooks);
+      },
+      onSettled: newHook => {
+        queryClient.invalidateQueries(['webhooks', newHook.id]);
+      },
     },
   );
 };
