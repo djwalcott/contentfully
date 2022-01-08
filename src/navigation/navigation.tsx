@@ -2,7 +2,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React, { useEffect } from 'react';
-import { StatusBar, useColorScheme } from 'react-native';
+import { StatusBar } from 'react-native';
 import {
   Notification,
   Notifications,
@@ -19,10 +19,11 @@ import {
   Media as MediaICon,
 } from '../components/icons/icons';
 import { TabBar } from '../components/tab-bar/tab-bar';
+import { useThemeScheme } from '../hooks/useThemeScheme';
 import { setDeviceToken } from '../storage/reducers/notifications';
 import { useAppDispatch, useAppSelector } from '../storage/store';
 import { font } from '../styles';
-import { theme } from '../styles/theme';
+import { defaultTheme } from '../styles/theme';
 import { Asset } from '../views/asset';
 import { Assets } from '../views/assets';
 import { Content as ContentEntries } from '../views/entries';
@@ -88,7 +89,7 @@ const MainStack = createNativeStackNavigator<MainStackParamList>();
 export const MainNavigation = () => {
   const { tokens } = useAppSelector(state => state.tokens);
   const { accentColor } = useAppSelector(state => state.theme);
-  const isDarkMode = useColorScheme() === 'dark';
+  const { theme, dark, light } = useThemeScheme();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -122,8 +123,17 @@ export const MainNavigation = () => {
   }, [dispatch]);
 
   return (
-    <ThemeProvider theme={{ ...theme, accent: accentColor }}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+    <ThemeProvider
+      theme={{
+        ...defaultTheme,
+        accent: accentColor,
+        theme: theme ?? defaultTheme.theme,
+        dark: dark ?? defaultTheme.dark,
+        light: light ?? defaultTheme.light,
+      }}>
+      <StatusBar
+        barStyle={theme === 'dark' ? 'light-content' : 'dark-content'}
+      />
       <MainStack.Navigator
         initialRouteName={tokens?.length > 0 ? 'Drawer' : 'Welcome'}>
         <MainStack.Screen

@@ -3,10 +3,8 @@ import React, { FC, useLayoutEffect, useState } from 'react';
 import { FlatList } from 'react-native';
 import styled from 'styled-components/native';
 import { Entry } from '../components/entry/entry';
-import { Container } from '../components/shared/container';
 import { RefreshControl } from '../components/shared/refresh-control';
-import { CardTitle } from '../components/shared/typography';
-import { useEntries } from '../hooks/entry';
+import { Entry as EntryType, useEntries } from '../hooks/entry';
 import { useDefaultLocale } from '../hooks/locales';
 import { useModels } from '../hooks/models';
 import { ContentStackParamList } from '../navigation/navigation';
@@ -42,12 +40,10 @@ export const Content: FC<Props> = ({ navigation }) => {
   console.log(data);
 
   return (
-    <FlatList
+    <List
       refreshControl={
         <RefreshControl refreshing={isRefetching} onRefresh={refetch} />
       }
-      style={{}}
-      contentContainerStyle={{ paddingHorizontal: 16 }}
       ListHeaderComponent={() => (
         <HContainer horizontal>
           {models?.items?.map(model => (
@@ -67,10 +63,19 @@ export const Content: FC<Props> = ({ navigation }) => {
   );
 };
 
+const List = styled(FlatList as new () => FlatList<EntryType>).attrs(() => ({
+  contentContainerStyle: {
+    paddingHorizontal: 16,
+    backgroundColor: 'white',
+    borderRadius: 8,
+  },
+}))`
+  padding: 8px;
+`;
+
 const HContainer = styled.ScrollView`
   flex-direction: row;
   background-color: white;
-  margin: 8px;
   border-radius: 8px;
   padding: 8px 16px;
 `;

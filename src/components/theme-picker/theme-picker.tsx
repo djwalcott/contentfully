@@ -57,6 +57,7 @@ export const ThemePicker: FC = () => {
       </ColorOptions>
 
       <CardTitle>Background color</CardTitle>
+
       <CardTitle>Text color</CardTitle>
     </Container>
   );

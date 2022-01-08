@@ -13,11 +13,29 @@ export type Color =
 export type ThemeState = {
   useSystemTheme: boolean;
   accentColor: Color;
+  theme: 'light' | 'dark';
+  dark: {
+    text: Color;
+    background: Color;
+  };
+  light: {
+    text: Color;
+    background: Color;
+  };
 };
 
 const initialState: ThemeState = {
   accentColor: 'indigo',
   useSystemTheme: true,
+  theme: 'light',
+  dark: {
+    text: 'gray',
+    background: 'stone',
+  },
+  light: {
+    text: 'stone',
+    background: 'gray',
+  },
 };
 
 export const themeSlice = createSlice({
@@ -29,6 +47,18 @@ export const themeSlice = createSlice({
     },
     setAccentColor: (state, action: PayloadAction<Color>) => {
       state.accentColor = action.payload;
+    },
+    setDarkColorScheme: (
+      state,
+      action: PayloadAction<{ text: Color; background: Color }>,
+    ) => {
+      state.dark = action.payload;
+    },
+    setLightColorScheme: (
+      state,
+      action: PayloadAction<{ text: Color; background: Color }>,
+    ) => {
+      state.light = action.payload;
     },
   },
 });
