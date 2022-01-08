@@ -8,10 +8,10 @@ export const useThemeScheme = () => {
   const isDarkMode = useColorScheme() === 'dark';
 
   if (useSystemTheme) {
-    return { theme: theme, dark, light };
-  } else {
     return isDarkMode
       ? { theme: 'dark', dark, light }
       : { theme: 'light', dark, light };
+  } else {
+    return { theme: theme, dark, light };
   }
 };

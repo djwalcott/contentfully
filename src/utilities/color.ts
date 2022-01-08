@@ -4,7 +4,7 @@ export const resolveColor = (
   theme: DefaultTheme,
   type: 'text' | 'background',
 ): string => {
-  if (type === 'text') {
+  if (type === 'background') {
     return theme.colors[theme[theme.theme].background][
       theme[theme.theme].backgroundColorScale
     ];

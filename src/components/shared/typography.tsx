@@ -1,8 +1,9 @@
 import styled from 'styled-components/native';
 import { font } from '../../styles';
+import { resolveColor } from '../../utilities/color';
 
 export const CardTitle = styled.Text`
-  color: ${({ theme }) => theme.colors.gray[500]};
+  color: ${({ theme }) => resolveColor(theme, 'text')};
   font-family: ${font.medium};
   text-transform: uppercase;
   font-weight: 500;
@@ -12,7 +13,7 @@ export const CardTitle = styled.Text`
 `;
 
 export const FloatingTitle = styled.Text`
-  color: ${({ theme }) => theme.colors.gray[500]};
+  color: ${({ theme }) => resolveColor(theme, 'text')};
   font-family: ${font.medium};
   text-transform: uppercase;
   font-weight: 500;
@@ -22,7 +23,7 @@ export const FloatingTitle = styled.Text`
 `;
 
 export const CardDescription = styled.Text`
-  color: ${({ theme }) => theme.colors.gray[500]};
+  color: ${({ theme }) => resolveColor(theme, 'text')};
   font-size: 12px;
   font-family: ${font.regular};
   margin-bottom: 8px;

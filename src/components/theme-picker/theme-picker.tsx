@@ -1,6 +1,10 @@
 import React, { FC, useEffect, useState } from 'react';
 import styled from 'styled-components/native';
-import { Color, setAccentColor } from '../../storage/reducers/theme';
+import {
+  Color,
+  setAccentColor,
+  toggleUseSystemTheme,
+} from '../../storage/reducers/theme';
 import { useAppDispatch, useAppSelector } from '../../storage/store';
 import { ThemePreview } from './theme-preview';
 import Animated, {
@@ -15,7 +19,7 @@ const colors: Color[] = ['stone', 'emerald', 'indigo', 'fuchsia', 'red'];
 export const ThemePicker: FC = () => {
   const [width, setWidth] = useState(0);
   const dispatch = useAppDispatch();
-  const { accentColor } = useAppSelector(({ theme }) => theme);
+  const { accentColor, useSystemTheme } = useAppSelector(({ theme }) => theme);
 
   const left = useSharedValue(
     colors.findIndex(color => color === accentColor) * (width / colors.length),
@@ -34,6 +38,10 @@ export const ThemePicker: FC = () => {
 
   const selectColor = (color: Color) => {
     dispatch(setAccentColor(color));
+  };
+
+  const setThemePreference = () => {
+    dispatch(toggleUseSystemTheme(!useSystemTheme));
   };
 
   return (
@@ -56,6 +64,9 @@ export const ThemePicker: FC = () => {
         ))}
       </ColorOptions>
 
+      <CardTitle>Theme</CardTitle>
+      <Switch value={useSystemTheme} onChange={setThemePreference} />
+
       <CardTitle>Background color</CardTitle>
 
       <CardTitle>Text color</CardTitle>
@@ -65,6 +76,7 @@ export const ThemePicker: FC = () => {
 
 const Container = styled.View`
   margin-top: 16px;
+  min-height: 350px; ;
 `;
 
 const ColorOptions = styled.View`
@@ -81,15 +93,14 @@ type CircleProps = {
 
 const CircleContainer = styled(Animated.View)`
   border-width: 2px;
-  background-color: ${({ theme }) => theme.colors.gray[100]}
-  border-color: ${({ theme }) => theme.colors.gray[300]}
+  background-color: ${({ theme }) => theme.colors.gray[100]};
+  border-color: ${({ theme }) => theme.colors.gray[300]};
   align-items: center;
   justify-content: center;
   border-radius: 16px;
   width: 32px;
   height: 32px;
-  position:absolute;    
-
+  position: absolute;
   transform: translate(-4px, 0px);
 `;
 
@@ -108,3 +119,5 @@ const InnerCircle = styled.View`
   width: 16px;
   border-radius: 15px;
 `;
+
+const Switch = styled.Switch``;

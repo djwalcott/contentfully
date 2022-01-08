@@ -16,11 +16,35 @@ export type ThemeState = {
   theme: 'light' | 'dark';
   dark: {
     text: Color;
+    textColorScale: 50 | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900;
     background: Color;
+    backgroundColorScale:
+      | 50
+      | 100
+      | 200
+      | 300
+      | 400
+      | 500
+      | 600
+      | 700
+      | 800
+      | 900;
   };
   light: {
     text: Color;
+    textColorScale: 50 | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900;
     background: Color;
+    backgroundColorScale:
+      | 50
+      | 100
+      | 200
+      | 300
+      | 400
+      | 500
+      | 600
+      | 700
+      | 800
+      | 900;
   };
 };
 
@@ -29,12 +53,16 @@ const initialState: ThemeState = {
   useSystemTheme: true,
   theme: 'light',
   dark: {
-    text: 'gray',
-    background: 'stone',
+    text: 'stone',
+    textColorScale: 100,
+    background: 'gray',
+    backgroundColorScale: 900,
   },
   light: {
     text: 'stone',
-    background: 'gray',
+    textColorScale: 100,
+    background: 'stone',
+    backgroundColorScale: 800,
   },
 };
 

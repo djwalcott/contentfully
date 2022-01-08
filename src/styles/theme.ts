@@ -4,16 +4,16 @@ export const defaultTheme: DefaultTheme = {
   accent: 'indigo',
   theme: 'light',
   dark: {
+    text: 'stone',
+    textColorScale: 100,
+    background: 'gray',
+    backgroundColorScale: 900,
+  },
+  light: {
     text: 'gray',
     textColorScale: 500,
     background: 'stone',
-    backgroundColorScale: 100,
-  },
-  light: {
-    text: 'stone',
-    textColorScale: 100,
-    background: 'stone',
-    backgroundColorScale: 800,
+    backgroundColorScale: 50,
   },
   colors: {
     indigo: {
