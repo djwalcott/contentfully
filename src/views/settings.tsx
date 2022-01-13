@@ -22,7 +22,7 @@ export const Settings: FC = () => {
     control,
     handleSubmit,
     reset,
-    formState: { errors, isValid },
+    formState: { isValid },
   } = useForm({
     mode: 'onChange',
     defaultValues: {
