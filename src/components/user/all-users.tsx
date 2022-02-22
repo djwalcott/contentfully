@@ -5,7 +5,6 @@ import { useUsers } from '../../hooks/user';
 import { SpaceScreenProps } from '../../views/space';
 import { Chevron } from '../icons/chevron';
 import { Description, Title } from '../item/item';
-import { AnimatedBone } from '../shared/bone';
 import { CardTitle } from '../shared/typography';
 
 type Props = {
@@ -13,7 +12,7 @@ type Props = {
 };
 
 export const AllUsers: FC<Props> = () => {
-  const { data, isLoading } = useUsers();
+  const { data } = useUsers();
   const navigation = useNavigation<SpaceScreenProps['navigation']>();
 
   return (
@@ -53,16 +52,6 @@ const Avatar = styled.Image`
   height: 30px;
   width: 30px;
   border-radius: 15px;
-`;
-
-const Name = styled.Text`
-  font-size: 13px;
-  margin-left: 8px;
-  color: ${({ theme }) => theme.colors.gray[800]};
-`;
-
-const Email = styled(Name)`
-  color: ${({ theme }) => theme.colors.gray[600]};
 `;
 
 const Row = styled.TouchableOpacity`

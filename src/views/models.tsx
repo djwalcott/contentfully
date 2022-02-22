@@ -10,7 +10,7 @@ type Props = NativeStackScreenProps<ModelStackParamList, 'Model'>;
 
 export const Models: FC<Props> = ({ navigation }) => {
   const { data, isRefetching, refetch } = useModels();
-  const [search, setSearch] = useState<undefined | string>(undefined);
+  const [, setSearch] = useState<undefined | string>(undefined);
 
   useLayoutEffect(() => {
     navigation.setOptions({

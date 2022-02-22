@@ -1,13 +1,5 @@
 import React, { FC } from 'react';
-import Svg, {
-  Circle,
-  Ellipse,
-  G,
-  Line,
-  Path,
-  Polygon,
-  Rect,
-} from 'react-native-svg';
+import Svg, { Ellipse, G, Line, Path, Polygon } from 'react-native-svg';
 
 type Props = {
   color: string;

@@ -3,13 +3,12 @@ import { Button } from 'react-native';
 import { Notifications } from 'react-native-notifications';
 import styled from 'styled-components/native';
 import { useCreateNotifications } from '../../hooks/notification';
-import { useAppDispatch, useAppSelector } from '../../storage/store';
+import { useAppSelector } from '../../storage/store';
 import { font } from '../../styles';
 import { Container } from '../shared/container';
 import { FloatingTitle } from '../shared/typography';
 
 export const NotificationsSettings: FC = () => {
-  const dispatch = useAppDispatch();
   const { deviceToken } = useAppSelector(({ notifications }) => notifications);
   const [isRegistered, setIsRegistered] = useState(false);
 
@@ -24,9 +23,9 @@ export const NotificationsSettings: FC = () => {
     check();
   }, []);
 
-  const registerNotifications = () => {
-    Notifications.registerRemoteNotifications();
-  };
+  // const registerNotifications = () => {
+  //   Notifications.registerRemoteNotifications();
+  // };
 
   const test = () => {
     mutate({
