@@ -70,7 +70,7 @@ export const useCreateNotifications = () => {
       },
       onError: (_error, _newHook, context) => {
         if (context?.previousHooks) {
-          queryClient.setQueryData('todos', context.previousHooks);
+          queryClient.setQueryData('webhooks', context.previousHooks);
         }
       },
       onSettled: () => {

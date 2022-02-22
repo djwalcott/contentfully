@@ -7,7 +7,7 @@ export const fieldResolver = (fieldObject: unknown) => {
     case Array.isArray(fieldObject):
       return `List of size ${fieldObject.length}`;
     case fieldObject === 'object':
-      return `Objcet with ${Object.keys(fieldObject).length}`;
+      return `Object with ${Object.keys(fieldObject).length}`;
     default:
       return 'Unknown';
   }

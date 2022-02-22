@@ -46,8 +46,8 @@ export const Settings: FC = () => {
       <Container>
         <CardTitle selectable>Management tokens {deviceToken}</CardTitle>
         <CardDescription>
-          To create a Contenful Management token in Contentful dashboard, follow
-          these instructions.
+          To create a Contentful Management token in Contentful dashboard,
+          follow these instructions.
         </CardDescription>
         {tokens?.map(token => (
           <TokenItem

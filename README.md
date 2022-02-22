@@ -1,4 +1,4 @@
-# Contenfully – mobile contentful management app
+# Contentfully – mobile contentful management app
 
 ## TODO
 

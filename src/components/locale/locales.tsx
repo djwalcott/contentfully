@@ -3,10 +3,9 @@ import styled from 'styled-components/native';
 import { useLocales } from '../../hooks/locales';
 import { font } from '../../styles';
 import { AnimatedBone } from '../shared/bone';
-import { SkeletenList } from '../shared/skeleton-list';
+import { SkeletonList } from '../shared/skeleton-list';
 import { CardTitle } from '../shared/typography';
 import BottomSheet from '@gorhom/bottom-sheet';
-import { View } from 'react-native';
 import { Text } from 'react-native-svg';
 
 type Props = {};
@@ -28,7 +27,7 @@ export const Locales: FC<Props> = () => {
     <Container>
       <CardTitle>Locales</CardTitle>
 
-      <SkeletenList
+      <SkeletonList
         isLoading={isLoading}
         SkeletonComponent={() => (
           <Skeleton>

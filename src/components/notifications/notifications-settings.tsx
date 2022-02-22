@@ -30,7 +30,7 @@ export const NotificationsSettings: FC = () => {
 
   const test = () => {
     mutate({
-      name: 'Contentfully notificationssdfsd',
+      name: 'Contentfully notifications',
       url: 'https://netli.fyi/functions/contentfully',
       topics: ['Entry.create', 'ContentType.create', '*.publish', 'Asset.*'],
       filters: [],
