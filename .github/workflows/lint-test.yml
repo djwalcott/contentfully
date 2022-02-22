@@ -19,7 +19,6 @@ jobs:
       - name: Install dependencies
         run: yarn --frozen-lockfile
       - name: Lint
-        working-directory: ./app
         run: yarn lint:export
         continue-on-error: true
       - name: Annotate linting result
