@@ -4,9 +4,9 @@ on: [pull_request]
 jobs:
   build-and-test:
     strategy:
-    matrix:
-      node-version: [16.x]
-      platform: [ubuntu-20.04]
+      matrix:
+        node-version: [16.x]
+        platform: [ubuntu-20.04]
     runs-on: ${{ matrix.platform }}
     steps:
       - uses: actions/checkout@v2
