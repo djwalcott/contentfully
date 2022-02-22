@@ -11,7 +11,6 @@ import { ListButton, ListButtonText } from '../components/shared/text-button';
 import { CardTitle } from '../components/shared/typography';
 import { useEntry, useUnpublishEntry } from '../hooks/entry';
 import { useDefaultLocale } from '../hooks/locales';
-import { useModel } from '../hooks/models';
 import { ContentStackParamList } from '../navigation/navigation';
 import { font } from '../styles';
 import { fieldResolver } from '../utilities/field-resolver';
@@ -25,7 +24,6 @@ export const Entry: FC<Props> = ({
 }) => {
   const { data: entry } = useEntry(entryID);
   const { data: locale } = useDefaultLocale();
-  const { data: model } = useModel(entry?.sys.contentType.sys.id);
 
   const { mutate, error } = useUnpublishEntry();
 

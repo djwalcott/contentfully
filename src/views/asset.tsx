@@ -10,7 +10,7 @@ type Props = NativeStackScreenProps<AssetStackParamList, 'Asset'>;
 
 export const Asset: FC<Props> = ({ route }) => {
   const assetID = route.params.assetID;
-  const { data: asset, error } = useAsset(assetID);
+  const { data: asset } = useAsset(assetID);
 
   return (
     <ScrollView>

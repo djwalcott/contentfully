@@ -1,3 +1,4 @@
+import React from 'react';
 import styled from 'styled-components/native';
 import { font } from '../../styles';
 
@@ -26,7 +27,7 @@ type Props = {
 };
 
 export const ListItem = () => {
-  return <Container></Container>;
+  return <Container />;
 };
 
 const Container = styled.View``;

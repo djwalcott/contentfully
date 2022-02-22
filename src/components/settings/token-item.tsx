@@ -6,7 +6,6 @@ import {
   PanGestureHandlerProps,
 } from 'react-native-gesture-handler';
 import Animated, {
-  runOnJS,
   useAnimatedGestureHandler,
   useAnimatedStyle,
   useSharedValue,
@@ -32,7 +31,6 @@ type Props = {
 export const TokenItem: FC<Props> = ({
   token,
   selected,
-  onDismiss,
   simultaneousHandlers,
 }) => {
   const dispatch = useDispatch();
@@ -40,7 +38,6 @@ export const TokenItem: FC<Props> = ({
   const translateX = useSharedValue(0);
   const itemHeight = useSharedValue(LIST_ITEM_HEIGHT);
   const marginVertical = useSharedValue(10);
-  const opacity = useSharedValue(1);
 
   const selectToken = () => {
     dispatch(setSelectedToken(token));
@@ -74,21 +71,6 @@ export const TokenItem: FC<Props> = ({
       },
     ],
   }));
-
-  const rIconContainerStyle = useAnimatedStyle(() => {
-    const opacity = withTiming(
-      translateX.value < TRANSLATE_X_THRESHOLD ? 1 : 0,
-    );
-    return { opacity };
-  });
-
-  const rTaskContainerStyle = useAnimatedStyle(() => {
-    return {
-      height: itemHeight.value,
-      marginVertical: marginVertical.value,
-      opacity: opacity.value,
-    };
-  });
 
   return (
     <OuterContainer onPress={() => selectToken()}>

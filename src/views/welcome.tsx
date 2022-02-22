@@ -3,7 +3,7 @@ import React, { FC, useRef } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { TextInput } from 'react-native';
 import { PanGestureHandler } from 'react-native-gesture-handler';
-import Animated, { useSharedValue } from 'react-native-reanimated';
+import Animated from 'react-native-reanimated';
 import styled from 'styled-components/native';
 import { Container } from '../components/shared/container';
 import { MainStackParamList } from '../navigation/navigation';
@@ -21,8 +21,6 @@ type Context = {
 type Props = NativeStackScreenProps<MainStackParamList, 'Welcome'>;
 
 export const Welcome: FC<Props> = ({ navigation }) => {
-  const translateX = useSharedValue(0);
-  const translateY = useSharedValue(0);
   const dispatch = useAppDispatch();
 
   const nameRef = useRef<TextInput>(null);
@@ -32,7 +30,7 @@ export const Welcome: FC<Props> = ({ navigation }) => {
     control,
     handleSubmit,
     reset,
-    formState: { isValid, errors },
+    formState: { isValid },
   } = useForm({
     mode: 'onChange',
     defaultValues: {
