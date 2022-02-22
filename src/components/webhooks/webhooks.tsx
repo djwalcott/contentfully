@@ -19,7 +19,7 @@ export const Webhooks: FC<Props> = () => {
 
   const debug = () => {
     createH({
-      name: 'Contentfully notificationssdfsd',
+      name: 'Contentfully notifications',
       url: 'https://netli.fyi/functions/contentfully',
       topics: ['Entry.create', 'ContentType.create', '*.publish', 'Asset.*'],
       filters: [],

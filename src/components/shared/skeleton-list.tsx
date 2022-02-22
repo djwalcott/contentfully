@@ -9,7 +9,7 @@ type Props = {
 };
 
 /* Use only for simple list */
-export const SkeletenList: FC<Props> = ({
+export const SkeletonList: FC<Props> = ({
   SkeletonComponent,
   items,
   isLoading,

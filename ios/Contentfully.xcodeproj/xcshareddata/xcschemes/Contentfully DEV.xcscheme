@@ -83,7 +83,7 @@
    </AnalyzeAction>
    <ArchiveAction
       buildConfiguration = "Release"
-      customArchiveName = "Contenfully DEV"
+      customArchiveName = "Contentfully DEV"
       revealArchiveInOrganizer = "YES">
    </ArchiveAction>
 </Scheme>

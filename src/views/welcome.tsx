@@ -91,7 +91,7 @@ export const Welcome: FC<Props> = ({ navigation }) => {
               </IconContainer>
             </PanGestureHandler>
           </Column>
-          <Title>Contenfully</Title>
+          <Title>Contentfully</Title>
           <Subtitle>Manage Contentful Spaces</Subtitle>
 
           <InputLabel>Token name</InputLabel>
@@ -143,7 +143,7 @@ export const Welcome: FC<Props> = ({ navigation }) => {
           />
 
           <HelpText>
-            To create a Contenful Management token in Contentful dashboard,
+            To create a Contentful Management token in Contentful dashboard,
             follow these instructions.
           </HelpText>
 

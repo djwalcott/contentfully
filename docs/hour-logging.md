@@ -15,7 +15,7 @@ Total hours at 7.11. = 46
   - trying to get react-native-reanimated to work
   - Entry and model screens
 - 6.11.2021 (6h)
-  - React-redux & redux-persist togethether with MMKV
+  - React-redux & redux-persist together with MMKV
   - Settings view and removing static authorization token from code
 - 7.11.2021 (6h)
   - Continue refactoring static environments and tokens
@@ -33,6 +33,6 @@ Total hours at 7.11. = 46
   - New tab bar with animations
   - More animations in general
   - Refactoring on navigation
-  - Card componets
+  - Card components
   - App icon
   -
