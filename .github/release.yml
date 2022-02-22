@@ -1,0 +1,17 @@
+# Defines which PRs to include/remove in automatic release notes
+# read more at: https://docs.github.com/en/repositories/releasing-projects-on-github/automatically-generated-release-notes
+
+changelog:
+  exclude:
+    labels:
+      - ignore-for-release
+    authors:
+      - runner
+      - dependabot
+  categories:
+    - title: App
+      labels:
+        - frontend
+    - title: Other
+      labels:
+        - '*'

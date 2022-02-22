@@ -1,8 +1,10 @@
 import styled from 'styled-components/native';
+import { resolveColor } from '../../utilities/color';
 
 export const Container = styled.View`
   padding: 16px;
-  background-color: white;
+  
+  background-color: ${({ theme }) => resolveColor(theme, 'background')}
   margin: 8px;
   border-radius: 6px;
   overflow: hidden;

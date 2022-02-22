@@ -1,7 +1,20 @@
 import { DefaultTheme } from 'styled-components/native';
 
-export const theme: DefaultTheme = {
+export const defaultTheme: DefaultTheme = {
   accent: 'indigo',
+  theme: 'light',
+  dark: {
+    text: 'stone',
+    textColorScale: 100,
+    background: 'gray',
+    backgroundColorScale: 900,
+  },
+  light: {
+    text: 'gray',
+    textColorScale: 500,
+    background: 'stone',
+    backgroundColorScale: 50,
+  },
   colors: {
     indigo: {
       50: '#EEF2FF',

@@ -1,5 +1,5 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import React, { FC, useEffect } from 'react';
+import React, { FC } from 'react';
 import styled, { css } from 'styled-components/native';
 import { Container } from '../components/shared/container';
 import { Skeleton } from '../components/shared/skeleton';

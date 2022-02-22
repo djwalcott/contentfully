@@ -29,7 +29,18 @@ export const NotificationsSettings: FC = () => {
   };
 
   const test = () => {
-    mutate();
+    mutate({
+      name: 'Contentfully notificationssdfsd',
+      url: 'https://netli.fyi/functions/contentfully',
+      topics: ['Entry.create', 'ContentType.create', '*.publish', 'Asset.*'],
+      filters: [],
+      headers: [
+        {
+          key: 'deviceToken',
+          value: `${deviceToken}`,
+        },
+      ],
+    });
   };
 
   return (

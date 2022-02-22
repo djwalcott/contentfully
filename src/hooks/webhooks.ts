@@ -1,16 +1,16 @@
-import { useMutation, useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { useAppSelector } from '../storage/store';
 import { Link } from '../typings/contentful';
 
 const BASE_URL = 'https://api.contentful.com';
 
 export type Webhook = {
-  name: string;
-  url: string;
-  httpBasicUsername: null;
-  topics: string[];
-  filters: null;
-  transformation: {
+  name?: string;
+  url?: string;
+  httpBasicUsername?: null;
+  topics?: Array<string> | null;
+  filters?: null | Array<string>;
+  transformation?: {
     body: {
       fallback: 'Coaching content has been updated';
       text: 'Coaching content has been updated!';
@@ -25,24 +25,24 @@ export type Webhook = {
       ];
     };
   };
-  active: true;
+  active?: boolean;
   sys: {
     type: string;
     id: string;
-    version: number;
+    version?: number;
     space: {
       sys: Link;
     };
-    createdBy: {
+    createdBy?: {
       sys: Link;
     };
-    createdAt: string;
-    updatedBy: {
+    createdAt?: string;
+    updatedBy?: {
       sys: Link;
     };
     updatedAt: string;
   };
-  headers: [];
+  headers: { key: string; value: string }[];
 };
 
 export type WebhooksResponse = {
@@ -50,9 +50,9 @@ export type WebhooksResponse = {
   limit: number;
   skip: number;
   sys: {
-    type: 'Array';
+    type?: 'Array';
   };
-  items: Webhook[];
+  items: Array<Webhook>;
 };
 
 export const useWebhooks = () => {
@@ -168,19 +168,27 @@ export const useDeleteWebhook = () => {
     tokens: { selected },
     space: { space },
   } = useAppSelector(state => state);
+  const queryClient = useQueryClient();
 
-  return useMutation(async (id: string) => {
-    const response = await fetch(
-      `${BASE_URL}/spaces/${space}/webhook_definitions/${id}`,
-      {
-        method: 'DELETE',
-        headers: {
-          Authorization: `Bearer ${selected?.content}`,
+  return useMutation(
+    async (id: string) => {
+      const response = await fetch(
+        `${BASE_URL}/spaces/${space}/webhook_definitions/${id}`,
+        {
+          method: 'DELETE',
+          headers: {
+            Authorization: `Bearer ${selected?.content}`,
+          },
         },
+      );
+      if (!response.ok) {
+        throw new Error('Something went wrong');
+      }
+    },
+    {
+      onSuccess: () => {
+        queryClient.resetQueries('webhooks');
       },
-    );
-    if (!response.ok) {
-      throw new Error('Something went wrong');
-    }
-  });
+    },
+  );
 };

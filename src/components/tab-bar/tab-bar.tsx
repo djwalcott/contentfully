@@ -2,6 +2,7 @@ import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import React, { FC } from 'react';
 import { TouchableOpacity } from 'react-native';
 import styled from 'styled-components/native';
+import { resolveColor } from '../../utilities/color';
 import { TabBarIcon } from './tab-bar-icon';
 import { TabBarLabel } from './tab-label';
 
@@ -93,7 +94,7 @@ export const TabBar: FC<BottomTabBarProps> = ({
 };
 
 const Container = styled.SafeAreaView`
-  background-color: white;
+  background-color: ${({ theme }) => resolveColor(theme, 'background')};
   flex-direction: row;
   justify-content: space-between;
   padding: 26px;

@@ -4,29 +4,26 @@ import { WebhooksResponse } from './webhooks';
 
 const BASE_URL = 'https://api.contentful.com';
 
+export type ContentfulNotificationPayload = {
+  name: string;
+  url: string;
+  topics: string[];
+  filters: string[];
+  headers: Array<{
+    key: string;
+    value: string;
+  }>;
+};
+
 export const useCreateNotifications = () => {
   const {
     tokens: { selected },
     space: { space },
-    notifications: { deviceToken },
   } = useAppSelector(state => state);
   const queryClient = useQueryClient();
 
-  const body = JSON.stringify({
-    name: 'Contentfully notificationssdfsd',
-    url: 'https://netli.fyi/functions/contentfully',
-    topics: ['Entry.create', 'ContentType.create', '*.publish', 'Asset.*'],
-    filters: [],
-    headers: [
-      {
-        key: 'deviceToken',
-        value: `${deviceToken}`,
-      },
-    ],
-  });
-
   return useMutation(
-    async () => {
+    async (payload: ContentfulNotificationPayload) => {
       const response = await fetch(
         `${BASE_URL}/spaces/${space}/webhook_definitions`,
         {
@@ -35,7 +32,7 @@ export const useCreateNotifications = () => {
             Authorization: `Bearer ${selected?.content}`,
             'Content-Type': 'application/vnd.contentful.management.v1+json',
           },
-          body: body,
+          body: JSON.stringify(payload),
         },
       );
 
@@ -48,19 +45,36 @@ export const useCreateNotifications = () => {
     {
       onMutate: async newHook => {
         await queryClient.cancelQueries('webhooks');
-        const previousHooks = queryClient.getQueryData(['webhooks', { space }]);
-        console.log(previousHooks);
-        queryClient.setQueryData(['webhooks', { space }], old => ({
-          ...old,
-          items: [...old.items, newHook],
-        }));
+        const previousHooks = queryClient.getQueryData<WebhooksResponse>([
+          'webhooks',
+          { space },
+        ]);
+
+        if (previousHooks) {
+          queryClient.setQueryData<WebhooksResponse>(['webhooks', { space }], {
+            ...previousHooks,
+            items: [
+              ...previousHooks?.items,
+              {
+                ...newHook,
+                sys: {
+                  id: 'temp',
+                  updatedAt: new Date().toISOString(),
+                },
+              },
+            ],
+          });
+        }
+
         return { previousHooks };
       },
-      onError: (_error, newHook, context) => {
-        queryClient.setQueryData('todos', context.previousHooks);
+      onError: (_error, _newHook, context) => {
+        if (context?.previousHooks) {
+          queryClient.setQueryData('todos', context.previousHooks);
+        }
       },
-      onSettled: newHook => {
-        queryClient.invalidateQueries(['webhooks', newHook.id]);
+      onSettled: () => {
+        queryClient.invalidateQueries(['webhooks']);
       },
     },
   );

@@ -1,17 +1,9 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React, { FC, useRef } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { Text, TextInput } from 'react-native';
-import {
-  PanGestureHandler,
-  PanGestureHandlerGestureEvent,
-} from 'react-native-gesture-handler';
-import Animated, {
-  useAnimatedGestureHandler,
-  useAnimatedStyle,
-  useSharedValue,
-  withSpring,
-} from 'react-native-reanimated';
+import { TextInput } from 'react-native';
+import { PanGestureHandler } from 'react-native-gesture-handler';
+import Animated, { useSharedValue } from 'react-native-reanimated';
 import styled from 'styled-components/native';
 import { Container } from '../components/shared/container';
 import { MainStackParamList } from '../navigation/navigation';

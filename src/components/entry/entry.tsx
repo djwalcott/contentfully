@@ -12,7 +12,7 @@ import { Draft, Published } from '../shared/published';
 
 type Props = {
   locale: LocaleCode | undefined;
-  entry: EntryType;
+  entry?: EntryType;
 };
 
 export const Entry: FC<Props> = ({ entry, locale }) => {
@@ -21,19 +21,23 @@ export const Entry: FC<Props> = ({ entry, locale }) => {
 
   return (
     <Container
-      onPress={() => navigation.navigate('Entry', { entryID: entry.sys.id })}>
+      onPress={() =>
+        navigation.navigate('Entry', { entryID: `${entry?.sys.id}` })
+      }>
       <Column>
         <TopRow>
           {model?.displayField && locale && (
             <Title>{entry?.fields?.[model?.displayField]?.[locale]}</Title>
           )}
-          {entry.sys.updatedAt === entry.sys.publishedAt ? (
+          {entry?.sys?.updatedAt === entry?.sys.publishedAt ? (
             <Published />
           ) : (
             <Draft />
           )}
         </TopRow>
-        <Updated>{formatTimestamp(entry.sys.updatedAt)}</Updated>
+        <Updated>
+          {entry?.sys.updatedAt && formatTimestamp(entry?.sys.updatedAt)}
+        </Updated>
       </Column>
       <Chevron />
     </Container>
@@ -42,8 +46,6 @@ export const Entry: FC<Props> = ({ entry, locale }) => {
 
 const Container = styled.TouchableOpacity`
   padding: 8px 0px;
-  border-bottom-color: ${({ theme }) => theme.colors.gray[200]};
-  border-bottom-width: 1px;
   flex-direction: row;
   align-items: center;
 `;

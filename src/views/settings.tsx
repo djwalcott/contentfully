@@ -5,6 +5,7 @@ import { NotificationsSettings } from '../components/notifications/notifications
 import { TokenItem } from '../components/settings/token-item';
 import { PrimaryButton } from '../components/shared/button';
 import { Container } from '../components/shared/container';
+import { ScrollView } from '../components/shared/scroll-view';
 import { CardDescription, CardTitle } from '../components/shared/typography';
 import { ThemePicker } from '../components/theme-picker/theme-picker';
 import { addToken } from '../storage/reducers/token';
@@ -21,7 +22,7 @@ export const Settings: FC = () => {
     control,
     handleSubmit,
     reset,
-    formState: { errors, isValid },
+    formState: { isValid },
   } = useForm({
     mode: 'onChange',
     defaultValues: {
@@ -112,11 +113,6 @@ export const Settings: FC = () => {
     </ScrollView>
   );
 };
-
-const ScrollView = styled.ScrollView`
-  width: 100%;
-  flex: 1;
-`;
 
 const InputLabel = styled.Text`
   font-size: 13px;

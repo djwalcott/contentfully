@@ -2,7 +2,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React, { useEffect } from 'react';
-import { StatusBar, useColorScheme } from 'react-native';
+import { StatusBar } from 'react-native';
 import {
   Notification,
   Notifications,
@@ -19,10 +19,12 @@ import {
   Media as MediaICon,
 } from '../components/icons/icons';
 import { TabBar } from '../components/tab-bar/tab-bar';
+import { useThemeScheme } from '../hooks/useThemeScheme';
 import { setDeviceToken } from '../storage/reducers/notifications';
 import { useAppDispatch, useAppSelector } from '../storage/store';
 import { font } from '../styles';
-import { theme } from '../styles/theme';
+import { defaultTheme } from '../styles/theme';
+import { resolveColor } from '../utilities/color';
 import { Asset } from '../views/asset';
 import { Assets } from '../views/assets';
 import { Content as ContentEntries } from '../views/entries';
@@ -88,7 +90,7 @@ const MainStack = createNativeStackNavigator<MainStackParamList>();
 export const MainNavigation = () => {
   const { tokens } = useAppSelector(state => state.tokens);
   const { accentColor } = useAppSelector(state => state.theme);
-  const isDarkMode = useColorScheme() === 'dark';
+  const { theme, dark, light } = useThemeScheme();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -121,9 +123,19 @@ export const MainNavigation = () => {
     );
   }, [dispatch]);
 
+  console.log(theme);
   return (
-    <ThemeProvider theme={{ ...theme, accent: accentColor }}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+    <ThemeProvider
+      theme={{
+        ...defaultTheme,
+        accent: accentColor,
+        theme: theme ?? defaultTheme.theme,
+        dark: dark ?? defaultTheme.dark,
+        light: light ?? defaultTheme.light,
+      }}>
+      <StatusBar
+        barStyle={theme === 'dark' ? 'light-content' : 'dark-content'}
+      />
       <MainStack.Navigator
         initialRouteName={tokens?.length > 0 ? 'Drawer' : 'Welcome'}>
         <MainStack.Screen
@@ -213,7 +225,7 @@ export const TabNavigator = () => {
 };
 
 const ContentNavigator = () => {
-  const { colors, accent } = useTheme();
+  const theme = useTheme();
 
   return (
     <ContentStack.Navigator
@@ -221,13 +233,13 @@ const ContentNavigator = () => {
         headerLargeTitle: true,
         headerLargeTitleShadowVisible: false,
         headerShadowVisible: false,
-        headerTintColor: colors[accent][500],
+        headerTintColor: theme.colors[theme.accent][500],
         headerStyle: {
-          backgroundColor: colors.gray[100],
+          backgroundColor: resolveColor(theme, 'background'),
         },
         headerLargeTitleStyle: {
           fontFamily: font.bold,
-          color: colors.gray[700],
+          color: resolveColor(theme, 'text'),
         },
       }}>
       <ContentStack.Screen
@@ -250,7 +262,7 @@ export type ModelStackParamList = {
 const ModelStack = createNativeStackNavigator<ModelStackParamList>();
 
 const ModelNavigator = () => {
-  const { colors, accent } = useTheme();
+  const theme = useTheme();
 
   return (
     <ModelStack.Navigator
@@ -258,13 +270,13 @@ const ModelNavigator = () => {
         headerLargeTitle: true,
         headerLargeTitleShadowVisible: false,
         headerShadowVisible: false,
-        headerTintColor: colors[accent][500],
+        headerTintColor: theme.colors[theme.accent][500],
         headerStyle: {
-          backgroundColor: colors.gray[100],
+          backgroundColor: resolveColor(theme, 'background'),
         },
         headerLargeTitleStyle: {
           fontFamily: font.bold,
-          color: colors.gray[700],
+          color: resolveColor(theme, 'text'),
         },
       }}>
       <ModelStack.Screen
@@ -280,20 +292,20 @@ const ModelNavigator = () => {
 };
 
 const AssetNavigator = () => {
-  const { colors, accent } = useTheme();
+  const theme = useTheme();
   return (
     <AssetStack.Navigator
       screenOptions={{
         headerLargeTitle: true,
         headerLargeTitleShadowVisible: false,
         headerShadowVisible: false,
-        headerTintColor: colors[accent][500],
+        headerTintColor: theme.colors[theme.accent][500],
         headerStyle: {
-          backgroundColor: colors.gray[100],
+          backgroundColor: resolveColor(theme, 'background'),
         },
         headerLargeTitleStyle: {
           fontFamily: font.bold,
-          color: colors.gray[700],
+          color: resolveColor(theme, 'text'),
         },
       }}>
       <AssetStack.Screen
@@ -316,20 +328,20 @@ const AssetNavigator = () => {
 };
 
 const SpaceNavigator = () => {
-  const { colors, accent } = useTheme();
+  const theme = useTheme();
   return (
     <SpaceStack.Navigator
       screenOptions={{
         headerLargeTitle: true,
         headerLargeTitleShadowVisible: false,
         headerShadowVisible: false,
-        headerTintColor: colors[accent][500],
+        headerTintColor: theme.colors[theme.accent][500],
         headerStyle: {
-          backgroundColor: colors.gray[100],
+          backgroundColor: resolveColor(theme, 'background'),
         },
         headerLargeTitleStyle: {
           fontFamily: font.bold,
-          color: colors.gray[700],
+          color: resolveColor(theme, 'text'),
         },
       }}>
       <SpaceStack.Screen

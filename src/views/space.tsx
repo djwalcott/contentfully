@@ -6,6 +6,7 @@ import { AllUsers } from '../components/user/all-users';
 import { Me } from '../components/user/me';
 import { Webhooks } from '../components/webhooks/webhooks';
 import { SpaceStackParamList } from '../navigation/navigation';
+import { resolveColor } from '../utilities/color';
 
 export type SpaceScreenProps = NativeStackScreenProps<
   SpaceStackParamList,
@@ -24,5 +25,5 @@ export const Space: FC<SpaceScreenProps> = () => {
 };
 
 const ScrollView = styled.ScrollView`
-  background-color: ${({ theme }) => theme.colors.gray[100]};
+  background-color: ${({ theme }) => resolveColor(theme, 'background')};
 `;

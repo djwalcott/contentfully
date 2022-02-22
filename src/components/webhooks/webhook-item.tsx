@@ -15,7 +15,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import styled from 'styled-components/native';
-import { useDeleteWebhook, Webhook } from '../../hooks/webhooks';
+import { Webhook } from '../../hooks/webhooks';
 import { formatTimestamp } from '../../utilities/time';
 import { SpaceScreenProps } from '../../views/space';
 import { Chevron } from '../icons/chevron';
@@ -57,7 +57,9 @@ export const WebhookItem: FC<Props> = ({ hook, removeHook }) => {
   const translateX = useSharedValue(0);
 
   const deleteHook = () => {
-    removeHook(hook.sys.id);
+    if (hook?.sys?.id) {
+      removeHook(hook?.sys?.id);
+    }
   };
 
   type AnimatedGHContext = {
@@ -120,12 +122,12 @@ export const WebhookItem: FC<Props> = ({ hook, removeHook }) => {
         <ItemContainer
           onPress={() =>
             navigation.navigate('Webhook', {
-              webhookID: hook.sys.id,
-              title: hook.name,
+              webhookID: hook?.sys?.id,
+              title: `${hook?.name}`,
             })
           }>
           <Column>
-            <Title>{`${hook.name}`}</Title>
+            <Title>{`${hook?.name}`}</Title>
             <Description>{formatTimestamp(hook?.sys.updatedAt)}</Description>
           </Column>
           <Chevron />
