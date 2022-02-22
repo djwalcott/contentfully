@@ -1,12 +1,14 @@
-# Automatically adds labels to created pull requests
-# Pull request labels are then used to create automatic release notes
-# Docs: https://github.com/actions/labeler
+# https://github.com/actions/labeler
 
 assets:
   - 'src/assets/**/*'
 
 store:
   - 'src/storage/**/*'
+
+ui:
+  - 'src/components/**/*'
+  - 'src/views/**/*'
 
 automation:
   - '.github/'
