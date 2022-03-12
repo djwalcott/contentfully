@@ -21,6 +21,9 @@ jobs:
       - name: Lint
         run: yarn lint:export
         continue-on-error: true
+      - name: Test
+        run: yarn test
+        continue-on-error: true
       - name: Annotate linting result
         if: ${{ !github.actor == 'dependabot[bot]' }}
         uses: ataylorme/eslint-annotate-action@1.2.0

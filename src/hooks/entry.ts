@@ -1,9 +1,8 @@
 import { useInfiniteQuery, useMutation, useQuery } from 'react-query';
+import { BASE_URL } from '../constants/constants';
 import { useAppSelector } from '../storage/store';
 import { Link } from '../typings/contentful';
 import { LocaleCode } from '../typings/locale';
-
-const BASE_URL = 'https://api.contentful.com';
 
 type Field = string;
 type FieldName = string;
@@ -65,12 +64,6 @@ type QueryParams = {
 
 type QueryOptions = QueryParams[];
 
-type Page = {
-  pages: Response;
-  skip: number;
-  entries: Entry[];
-};
-
 export const useEntries = (queryOptions?: QueryOptions) => {
   const {
     tokens: { selected },
@@ -87,7 +80,7 @@ export const useEntries = (queryOptions?: QueryOptions) => {
     }
   });
 
-  return useInfiniteQuery<Response, Error, Page>(
+  return useInfiniteQuery<Response, Error, Response>(
     ['entries', { space, environment, queryOptions }],
     async ({ pageParam = 0 }) => {
       url.searchParams.set('skip', `${pageParam}`);

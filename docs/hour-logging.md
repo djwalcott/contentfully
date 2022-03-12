@@ -36,3 +36,7 @@ Total hours at 7.11. = 46
   - Card components
   - App icon
   -
+- 13.3.2022 (4)
+  - Setup tests
+  - Test useEntry
+  - Add test step to CI

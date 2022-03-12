@@ -21,7 +21,7 @@ export const storage = new MMKV();
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 
-const rootReducer = combineReducers({
+export const rootReducer = combineReducers({
   tokens: tokensReducer,
   space: spaceReducer,
   theme: themeReducer,
