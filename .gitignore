@@ -62,3 +62,4 @@ buck-out/
 # Eslint
 .eslintcache
 eslint_report.json
+.env
