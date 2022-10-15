@@ -1,6 +1,5 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useState } from 'react';
 import { Button } from 'react-native';
-import { Notifications } from 'react-native-notifications';
 import styled from 'styled-components/native';
 import { useCreateNotifications } from '../../hooks/notification';
 import { useAppSelector } from '../../storage/store';
@@ -13,19 +12,6 @@ export const NotificationsSettings: FC = () => {
   const [isRegistered, setIsRegistered] = useState(false);
 
   const { mutate } = useCreateNotifications();
-
-  useEffect(() => {
-    const check = async () => {
-      const registered =
-        await Notifications.isRegisteredForRemoteNotifications();
-      setIsRegistered(registered);
-    };
-    check();
-  }, []);
-
-  // const registerNotifications = () => {
-  //   Notifications.registerRemoteNotifications();
-  // };
 
   const test = () => {
     mutate({

@@ -9,7 +9,12 @@
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "lint:export": "eslint --output-file eslint_report.json --format json src",
-    "check-spelling": "cspell --config cspell.config.js '**/*.{txt,js,md,ts,tsx,jsx}'"
+    "check-spelling": "cspell --config cspell.config.js '**/*.{txt,js,md,ts,tsx,jsx}'",
+    "pod": "cd ios/ && rm -rf Pods/ && pod install && cd ..",
+    "clean:android": "cd android && ./gradlew clean && cd ../",
+    "clean:ios": "cd ios && rm -rf build && xcodebuild clean && cd ../",
+    "clean:node": "rm -rf node_modules && yarn",
+    "clean": "yarn clean:ios && yarn clean:node && yarn pod"
   },
   "dependencies": {
     "@expo/react-native-action-sheet": "^3.12.0",
@@ -20,9 +25,9 @@
     "@react-navigation/native-stack": "^6.2.5",
     "@reduxjs/toolkit": "^1.6.2",
     "date-fns": "^2.25.0",
-    "react": "17.0.2",
+    "react": "18.1.0",
     "react-hook-form": "^7.19.5",
-    "react-native": "0.66.1",
+    "react-native": "0.70.4",
     "react-native-gesture-handler": "^1.10.3",
     "react-native-linear-gradient": "^2.5.6",
     "react-native-mmkv": "^1.5.3",
@@ -38,6 +43,7 @@
     "styled-components": "^5.3.3"
   },
   "devDependencies": {
+    "@babel/preset-typescript": "^7.18.6",
     "@babel/core": "^7.12.9",
     "@babel/runtime": "^7.12.5",
     "@react-native-community/eslint-config": "^2.0.0",
@@ -51,13 +57,13 @@
     "babel-plugin-transform-remove-console": "^6.9.4",
     "cross-fetch": "^3.1.5",
     "cspell": "^5.18.5",
-    "eslint": "^7.14.0",
+    "eslint": "^7.32.0",
     "jest": "^26.6.3",
-    "metro-react-native-babel-preset": "^0.66.2",
+    "metro-react-native-babel-preset": "0.72.3",
     "msw": "^0.39.1",
     "react-native-flipper": "^0.117.0",
     "react-query-native-devtools": "^3.0.1",
-    "react-test-renderer": "17.0.2",
+    "react-test-renderer": "18.1.0",
     "typescript": "^3.8.3"
   },
   "resolutions": {
